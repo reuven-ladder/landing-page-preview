@@ -40,10 +40,7 @@
   document.querySelectorAll('form[data-formspree]').forEach(function (form) {
     var box = form.closest('.form');
     var submit = form.querySelector('button[type="submit"]');
-    function sync() { if (submit) submit.disabled = !form.checkValidity(); }
-    form.addEventListener('input', sync);
-    form.addEventListener('change', sync);
-    sync();
+    function sync() { if (submit) submit.disabled = false; }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }

@@ -1,5 +1,5 @@
 // Ladder story world: one ink-drawn site, driven by scroll.
-// Beats: 0 hero · 1 three bids · 2 least complete · 3 gaps · 4 read · 5 measure · 6 price · 7 review · 8 same building · 9 cta
+// Beats: 0 hero (auto loop: documents → measured scope → priced estimate) · 1 three bids · 2 least complete · 3 gaps · 4 read+measure · 5 price · 6 review · 7 same building · 8 cta
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
@@ -361,12 +361,11 @@ function start() {
     { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 1 three bids
     { p: [96, 30, 70], t: [6, 6, 2], s: 0.12 },   // 2 least complete
     { p: [-4, 15, 30], t: [-14, 11, 2] },        // 3 gaps (sheets)
-    { p: [-2, 17, 36], t: [-12, 12, 0] },        // 4 read
-    { p: [27, 20, 44], t: [-6, 8, 0], m: [3, 8, 1] },          // 5 measure
-    { p: [30, 23, 50], t: [-12, 7.5, 0], m: [3, 6, 1] },       // 6 price
-    { p: [28, 21, 46], t: [-12, 7.5, 0], m: [3, 6, 1] },       // 7 review
-    { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 8 same building
-    { p: [34, 30, 62], t: [-11, 6.5, 0], m: [2, 9, 0] }        // 9 cta
+    { p: [27, 20, 44], t: [-6, 8, 0], m: [3, 8, 1] },          // 4 read + measure
+    { p: [30, 23, 50], t: [-12, 7.5, 0], m: [3, 6, 1] },       // 5 price
+    { p: [28, 21, 46], t: [-12, 7.5, 0], m: [3, 6, 1] },       // 6 review
+    { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 7 same building
+    { p: [34, 30, 62], t: [-11, 6.5, 0], m: [2, 9, 0] }        // 8 cta
   ];
 
   /* ---------- scroll ---------- */
@@ -420,9 +419,9 @@ function start() {
     camera.setViewOffset(innerWidth, innerHeight, -sh * innerWidth, 0, innerWidth, innerHeight);
 
     // bidders
-    const bids = Math.max(win(p, 0.45, 1, 2.25, 2.7), win(p, 7.45, 8, 9.5, 9.8));
+    const bids = Math.max(win(p, 0.45, 1, 2.25, 2.7), win(p, 6.45, 7, 8.5, 8.8));
     const missing = win(p, 1.3, 1.8, 2.5, 3);   // missing parts shown as red ghosts
-    const fixed = sm((p - 7.4) / 0.6);          // after the addendum every bidder has every part
+    const fixed = sm((p - 6.4) / 0.6);          // after the addendum every bidder has every part
     [B, Cb].forEach((b) => {
       b.g.visible = bids > 0.01;
       b.shadow.uniforms.uOpacity.value = 0.55 * bids;
@@ -434,17 +433,24 @@ function start() {
       });
     });
 
+    // hero loop: documents -> measured scope -> priced estimate, without scrolling
+    const heroVis = 1 - sm(p / 0.6);
+    const L = (T % 11) / 11;
+    const hScan = win(L, 0.02, 0.08, 0.3, 0.36) * heroVis;
+    const hMeas = win(L, 0.28, 0.36, 0.9, 0.97) * heroVis;
+    root.classList.toggle('hero-price', win(L, 0.55, 0.6, 0.9, 0.95) * heroVis > 0.5);
+
     // gaps: canopy pulses red on A
     const gap = win(p, 2.5, 3, 3.6, 4.2);
     // measure: highlight A's parts one by one
-    const meas = win(p, 4.5, 5, 6.6, 7.2);
+    const meas = Math.max(win(p, 3.5, 4, 5.6, 6.2), hMeas);
     const hiParts = ['roof', 'cw', 'store'];
-    hiParts.forEach((k, j) => A.P[k].setTint(meas * sm((p - 4.55 - j * 0.12) / 0.3), BLUE));
-    A.P.canopy.setTint(Math.max(gap * (0.6 + 0.4 * Math.sin(T * 4)), meas * sm((p - 4.95) / 0.3)), RED);
-    trails.forEach((m, j) => { m.opacity = meas * sm((p - 4.55 - j * 0.12) / 0.3); m.dashOffset -= dt * 1.4; });
+    hiParts.forEach((k, j) => A.P[k].setTint(meas * Math.max(sm((p - 3.55 - j * 0.12) / 0.3), heroVis), BLUE));
+    A.P.canopy.setTint(Math.max(gap * (0.6 + 0.4 * Math.sin(T * 4)), meas * Math.max(sm((p - 3.95) / 0.3), heroVis)), RED);
+    trails.forEach((m, j) => { m.opacity = meas * Math.max(sm((p - 3.55 - j * 0.12) / 0.3), heroVis); m.dashOffset -= dt * 1.4; });
 
     // sheets: bob, highlight on read, scan line
-    const read = win(p, 2.6, 3.2, 5.2, 6);
+    const read = Math.max(win(p, 2.6, 3.2, 4.4, 5), hScan);
     Object.values(sheets).forEach((s, j) => {
       const u = s.userData;
       s.position.y = u.base + Math.sin(T * 0.8 + u.ph) * 0.25;
@@ -454,7 +460,7 @@ function start() {
       u.page.material.opacity = 1 - bids;
       u.page.material.transparent = bids > 0.01;
       u.shadow.visible = bids < 0.4;
-      const sc = win(p, 3.5, 3.8, 4.5, 4.9);
+      const sc = Math.max(win(p, 3.3, 3.7, 4.2, 4.6), hScan);
       u.scan.material.opacity = sc * 0.9;
       u.scan.position.y = 1.9 - ((T * 0.6 + j * 0.27) % 1) * 3.8;
     });
@@ -465,7 +471,7 @@ function start() {
     const W = innerWidth, H = innerHeight;
     camera.updateMatrixWorld();
     const vis = {
-      bid: bids, miss: missing * (1 - fixed), gap, meas, ok: sm((p - 7.6) / 0.4) * win(p, 7.4, 8, 9.5, 9.8)
+      bid: bids * (1 - fixed), miss: missing * (1 - fixed), gap, meas, ok: sm((p - 6.6) / 0.4) * win(p, 6.4, 7, 8.5, 8.8)
     };
     anchors.forEach((a) => {
       const show = vis[a.el.dataset.show] || 0;
@@ -478,8 +484,7 @@ function start() {
 
     // HTML panels
     document.documentElement.style.setProperty('--bids', bids.toFixed(3));
-    root.dataset.state = p < 1.5 ? 'bids' : p < 3 ? 'miss' : p > 7.5 ? 'fixed' : 'none';
-
+    
     renderer.render(scene, camera);
   }
   requestAnimationFrame(frame);
