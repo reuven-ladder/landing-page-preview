@@ -184,6 +184,65 @@ main{position:relative;z-index:1}
 .home .form{border:1px solid var(--ink);box-shadow:none;border-radius:14px}
 .home .site-footer{position:relative;z-index:1;background:var(--paper);padding-top:1.25rem}
 
+
+/* ---------- homepage blocks ---------- */
+.svc-grid{display:grid;grid-template-columns:1.35fr 1fr;grid-template-rows:auto auto;gap:1rem}
+.svc-grid .sv.main{grid-row:1/3}
+.sv.main{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sv.main .n{color:#9db1ff}
+.sv.main h3{font-size:1.9rem}
+.sv.main p{color:rgba(255,255,255,.75);font-size:1.02rem;flex:none}
+.sv.main .go{color:#fff;margin-top:auto;padding-top:1.25rem}
+.sv.main:hover{border-color:var(--ink)}
+.sv .mini{margin-top:1.4rem;background:#fff;color:var(--ink);border-radius:8px;overflow:hidden;transform:none;box-shadow:none;border:0;font-size:inherit}
+.mini .q-row{grid-template-columns:1fr 5.6rem 4.4rem 5.6rem}
+
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;counter-reset:f}
+.flow li{position:relative;background:#fff;border:1px solid var(--line-strong);border-radius:12px;padding:1.25rem 1.3rem 1.4rem}
+.flow li:not(:last-child)::after{content:"→";position:absolute;right:-.85rem;top:5.2rem;width:1.5rem;height:1.5rem;display:grid;place-items:center;background:var(--paper-2);border-radius:50%;font-size:.85rem;color:var(--ink-3);z-index:1}
+.flow .ill{background:var(--paper);border:1px solid var(--line);border-radius:8px;margin-bottom:1.1rem}
+.flow svg{display:block;width:100%;height:auto}
+.flow .pp{fill:#fff;stroke:var(--ink);stroke-width:1.2}
+.flow .ln{fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linecap:round}
+.flow .th{stroke-width:.7;opacity:.6}
+.flow .scan{fill:var(--blue);animation:fscan 2.8s ease-in-out infinite}
+.flow .pins circle{fill:var(--blue);stroke:#fff;stroke-width:1.5;animation:fpin 2.8s ease-in-out infinite}
+.flow .pins circle:nth-child(2){animation-delay:.25s}
+.flow .pins circle:nth-child(3){animation-delay:.5s}
+.flow .dots{fill:none;stroke:var(--ochre);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:.5 6;animation:fdots 1s linear infinite}
+.flow .rows path{stroke-dasharray:200;stroke-dashoffset:200;animation:frows 3.2s ease-in-out infinite}
+.flow .tick{fill:none;stroke:var(--green);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:ftick 3.2s ease-in-out infinite}
+.flow .xl{fill:var(--green)}
+.flow .xt{font:700 6.5px var(--mono);fill:#fff;text-anchor:middle}
+.flow .arrow{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;animation:farrow 1.6s ease-in-out infinite}
+@keyframes fscan{0%{transform:translateY(0);opacity:0}10%{opacity:.9}80%{opacity:.9}100%{transform:translateY(62px);opacity:0}}
+@keyframes fpin{0%,30%{opacity:0;transform:scale(.4)}45%,85%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes fdots{to{stroke-dashoffset:-13}}
+@keyframes frows{0%{stroke-dashoffset:200}55%,100%{stroke-dashoffset:0}}
+@keyframes ftick{0%,55%{stroke-dashoffset:40}75%,100%{stroke-dashoffset:0}}
+@keyframes farrow{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.flow .pins circle{transform-box:fill-box;transform-origin:center}
+.flow .st{font:600 .68rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.flow h3{font-size:1.3rem;letter-spacing:-.02em;margin-top:.55rem}
+.flow p{color:var(--ink-2);font-size:.95rem;margin-top:.45rem}
+
+.recv4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:1.75rem}
+.recv4 h3{font-size:1.05rem;letter-spacing:-.01em;padding-top:.8rem;border-top:2px solid var(--ink)}
+.recv4 p{color:var(--ink-2);font-size:.92rem;margin-top:.4rem}
+.dl{margin-top:1.75rem}
+.people .person.note{order:0}
+@media (max-width:960px){
+  .svc-grid,.flow{grid-template-columns:1fr}
+  .svc-grid .sv.main{grid-row:auto}
+  .flow li:not(:last-child)::after{right:auto;left:50%;top:auto;bottom:-.95rem;transform:translateX(-50%) rotate(90deg)}
+  .recv4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .recv4{grid-template-columns:1fr}
+  .mini .q-row{grid-template-columns:1fr 4.6rem 4.4rem;font-size:.7rem}
+  .mini .q-row>span:nth-child(3){display:none}
+}
+@media (prefers-reduced-motion:reduce){.flow *{animation:none!important}.flow .rows path,.flow .tick{stroke-dashoffset:0}}
 @media (max-width:960px){
   .split,.sec-head,.people,.svc3{grid-template-columns:1fr}
 }
