@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="assets/world.css" />
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
-<body class="home v9" data-beat="0">
+<body class="home" data-beat="0">
 
 <header class="site-header">
   <div class="topbar">
@@ -55,28 +55,16 @@
   </div>
 </header>
 
-<!-- The world: one ink-drawn site behind the whole story -->
+<!-- Hero world: drawings become a priced estimate -->
 <div class="world" id="world" aria-hidden="true">
   <canvas></canvas>
   <img class="fallback" src="assets/hero-art.svg" alt="" />
   <div class="grain"></div>
   <div class="ov" id="ov">
-    <div class="lbl" data-at="A.body" data-dy="11" data-show="bid"><b>A</b></div>
-    <div class="lbl" data-at="B.body" data-dy="11" data-show="bid"><b>B</b></div>
-    <div class="lbl" data-at="C.body" data-dy="11" data-show="bid"><b>C</b></div>
-    <div class="tag3 bad" data-at="B.rtu" data-dy="1.5" data-show="miss"><i></i><div><b>Rooftop units</b><small>Bidder B · silent</small></div></div>
-    <div class="tag3 bad" data-at="C.canopy" data-dy="0.5" data-show="miss"><i></i><div><b>Canopy &amp; paving</b><small>Bidder C · excluded</small></div></div>
     <div class="tag3" data-at="A.roof" data-dy="1.2" data-show="meas"><i></i><div><b>TPO roofing <em>18,400 SF</em></b><small>↗ A-501 · Spec 07 54 23</small></div></div>
     <div class="tag3" data-at="A.cw" data-dy="0" data-show="meas"><i></i><div><b>Curtain wall <em>6,900 SF</em></b><small>↗ A-301 · Spec 08 44 13</small></div></div>
     <div class="tag3" data-at="A.store" data-dy="0" data-show="meas"><i></i><div><b>Door hardware <em>146 EA</em></b><small>↗ A-601 schedule</small></div></div>
-    <div class="tag3 bad" data-at="A.cw" data-dy="2" data-show="rec"><i></i><div><b>Curtain wall <em>+$212k</em></b><small>Quantity · head height</small></div></div>
-    <div class="tag3 bad" data-at="A.rtu" data-dy="1.2" data-show="rec"><i></i><div><b>Rooftop units <em>−$224k</em></b><small>Scope · Addendum 3</small></div></div>
-    <div class="tag3 bad" data-at="A.cw" data-dy="3" data-show="gap"><i></i><div><b>Head height?</b><small>Not dimensioned · A-301 · RFI #7</small></div></div>
-    <div class="tag3 bad" data-at="sheet.A-601" data-dy="0" data-show="gap"><i></i><div><b>Hardware set 4</b><small>Closers missing from schedule · RFI #9</small></div></div>
-    <div class="tag3 bad" data-at="A.podium" data-dy="1" data-show="gap"><i></i><div><b>Demolition</b><small>Allowance until survey</small></div></div>
   </div>
-
-  <!-- hero loop -->
   <div class="panel3 herocard">
     <div class="p-head"><span>Priced estimate</span><span>Illustrative</span></div>
     <div class="q-row q-h"><span>Item</span><span>Qty</span><span>Rate</span><span>Total</span></div>
@@ -84,62 +72,10 @@
     <div class="q-row"><span>Curtain wall</span><span>6,900 SF</span><span>$158.00</span><span>$1,090,200</span></div>
     <div class="q-row"><span>Door hardware</span><span>146 EA</span><span>$880</span><span>$128,480</span></div>
   </div>
-
-  <!-- 1 + 5: the estimate -->
-  <div class="panel3 estcard" data-beats="1,5">
-    <div class="p-head"><span>BOQ &amp; cost estimate · Rev 2</span><span>Illustrative</span></div>
-    <div class="q-row q-h"><span>Item</span><span>Qty</span><span>Rate</span><span>Total</span></div>
-    <div class="q-row e-row"><span><b>TPO roofing, 60 mil</b><small>↗ A-501 · regional bids</small></span><span>18,400 SF</span><span>$23.90</span><span>$439,760</span></div>
-    <div class="q-row e-row"><span><b>Curtain wall</b><small>↗ A-301 · range until RFI #7</small></span><span>6,900 SF</span><span>$158.00</span><span>$1,090,200</span></div>
-    <div class="q-row e-row"><span><b>Door hardware sets</b><small>↗ A-601 · set rate by type</small></span><span>146 EA</span><span>$880</span><span>$128,480</span></div>
-    <div class="q-row e-row"><span><b>Rooftop units, 25 ton</b><small>↗ M-401 · 2 supplier quotes</small></span><span>4 EA</span><span>$56,000</span><span>$224,000</span></div>
-    <div class="q-row e-row ask"><span><b>Selective demolition</b><small>↗ D-101 · allowance</small></span><span>25,600 SF</span><span>$1.85</span><span>$47,360</span></div>
-    <div class="e-tot"><span>Excerpt total</span><b>$1,929,800<small>Range $1.74M – $2.12M</small></b></div>
-    <div class="e-rev">✓ Pricing and assumptions reviewed by a cost professional</div>
-  </div>
-
-  <!-- 2: reconciliation -->
-  <div class="panel3 reccard" data-beats="2">
-    <div class="p-head"><span>Reconciliation · Designer vs. OPM</span><span>Illustrative</span></div>
-    <div class="r-row r-h"><span>Item</span><span>Designer</span><span>OPM</span><span>Δ</span></div>
-    <div class="r-row"><span><b>Curtain wall</b><small>Quantity: head height read differently</small></span><span>$1.09M</span><span>$1.30M</span><span class="up">+$212k</span></div>
-    <div class="r-row"><span><b>TPO roofing</b><small>Rate: regional bids vs. national book</small></span><span>$440k</span><span>$412k</span><span class="dn">−$28k</span></div>
-    <div class="r-row"><span><b>Rooftop units</b><small>Scope: Addendum 3 not carried by OPM</small></span><span>$224k</span><span>$0</span><span class="dn">−$224k</span></div>
-    <div class="p-foot"><span>Net variance −$40k · every difference explained</span></div>
-  </div>
-
-  <!-- 3: bid analysis -->
-  <div class="panel3 bidtab" data-beats="3">
-    <div class="p-head"><span>Bid analysis · common scope</span><span>Illustrative</span></div>
-    <div class="b-row"><span class="who">Bidder A</span><span class="st"><s class="ok">Full scope</s></span><span class="amt">$4.12M</span></div>
-    <div class="b-row"><span class="who">Bidder B</span><span class="st"><s class="no">Silent: rooftop units</s></span><span class="amt">$3.71M</span></div>
-    <div class="b-row low"><span class="who">Bidder C</span><span class="st"><s class="no">Excluded: canopy, paving</s></span><span class="amt">$3.38M</span></div>
-    <div class="p-foot"><span class="f1">2 coverage gaps · clarifications drafted</span></div>
-  </div>
-
-  <!-- 6: the deliverable -->
-  <div class="panel3 filecard" data-beats="6">
-    <div class="p-head"><span>Riverside_Estimate_Rev2.xlsx</span><span>Delivered</span></div>
-    <div class="f-row"><i>▦</i><span><b>Estimate</b><small>Quantities, rates and totals by trade</small></span></div>
-    <div class="f-row"><i>↗</i><span><b>Sources</b><small>Sheet, detail or spec behind each quantity</small></span></div>
-    <div class="f-row"><i>§</i><span><b>Basis</b><small>Rates, assumptions, allowances, exclusions</small></span></div>
-    <div class="f-row"><i>?</i><span><b>Findings</b><small>Gaps and conflicts, written as questions</small></span></div>
-    <div class="e-rev on">✓ Reviewed · Uniformat, MasterFormat or your template</div>
-  </div>
-
-  <!-- 7: findings -->
-  <div class="panel3 findcard" data-beats="7">
-    <div class="p-head"><span>Findings &amp; clarifications</span><span>Illustrative</span></div>
-    <div class="fd"><s class="g">Gap</s><span>Curtain wall head height at level 5 not dimensioned. <small>A-301 · RFI #7</small></span></div>
-    <div class="fd"><s class="c">Conflict</s><span>Hardware set 4 lists closers the door schedule omits. <small>08 71 00 · A-601 · RFI #9</small></span></div>
-    <div class="fd"><s class="a">Allowance</s><span>Demolition carried until the survey arrives. <small>02 41 19 · D-101</small></span></div>
-  </div>
 </div>
 
 <main id="top">
   <div class="story" id="story">
-
-    <!-- 0 · HERO -->
     <section class="beat hero3" data-beat="0">
       <div class="wrap">
         <p class="kicker">AI-native cost engineering</p>
@@ -152,82 +88,85 @@
         <p class="fine">Fixed-fee proposal in 24 hours · NDA on request</p>
       </div>
     </section>
-
-    <!-- 1-3 · SERVICES -->
-    <section class="beat" data-beat="1" id="services">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">Services</p>
-        <h2>Your project. <span class="accent">Priced and itemized.</span></h2>
-        <div class="trk"><span class="on">BOQ &amp; cost estimate</span><i></i><span>Reconciliation</span><i></i><span>Bid analysis</span></div>
-        <h3>BOQ &amp; cost estimate</h3>
-        <p>A detailed breakdown of scope, quantities and costs, organized by trade. Delivered in Excel, with document references, pricing assumptions, allowances and exclusions.</p>
-        <a class="link-arrow" href="#start" data-need="BOQ &amp; cost estimate">Request a quote →</a>
-      </div></div>
-    </section>
-
-    <section class="beat" data-beat="2">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">Services</p>
-        <div class="trk"><span class="done">BOQ &amp; cost estimate</span><i></i><span class="on">Reconciliation</span><i></i><span>Bid analysis</span></div>
-        <h2>Estimate <span class="accent">reconciliation.</span></h2>
-        <p>A line-by-line comparison of existing estimates. We identify differences in scope, quantities, rates and assumptions, and explain what drives the variance.</p>
-        <a class="link-arrow" href="#start" data-need="Estimate reconciliation">Request a quote →</a>
-      </div></div>
-    </section>
-
-    <section class="beat" data-beat="3">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">Services</p>
-        <div class="trk"><span class="done">BOQ &amp; cost estimate</span><i></i><span class="done">Reconciliation</span><i></i><span class="on">Bid analysis</span></div>
-        <h2>Bid <span class="accent">analysis.</span></h2>
-        <p>Contractor and subcontractor proposals compared against a common scope. Receive a clear comparison of prices, coverage, exclusions and items requiring clarification.</p>
-        <a class="link-arrow" href="#start" data-need="Bid analysis">Request a quote →</a>
-      </div></div>
-    </section>
-
-    <!-- 4-6 · HOW WE WORK -->
-    <section class="beat r" data-beat="4" id="how">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">How we work</p>
-        <h2>Built with AI. <span class="accent">Led by cost professionals.</span></h2>
-        <div class="trk"><span class="on">AI</span><i></i><span>Cost professionals</span><i></i><span>You</span></div>
-        <p>Our AI reads across drawings, specifications and addenda to extract scope, measure quantities and cross-check requirements.</p>
-      </div></div>
-    </section>
-
-    <section class="beat" data-beat="5">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">How we work</p>
-        <div class="trk"><span class="done">AI</span><i></i><span class="on">Cost professionals</span><i></i><span>You</span></div>
-        <h2>Priced and reviewed <span class="accent">by people.</span></h2>
-        <p>Our cost professionals develop and review the estimate: pricing, assumptions, allowances and the judgment calls that matter.</p>
-      </div></div>
-    </section>
-
-    <section class="beat" data-beat="6">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">How we work</p>
-        <div class="trk"><span class="done">AI</span><i></i><span class="done">Cost professionals</span><i></i><span class="on">You</span></div>
-        <h2>You receive <span class="accent">the finished work.</span></h2>
-        <p>Your reviewed estimate, supporting documentation and findings, ready for your team to use. No software to learn or platform to adopt.</p>
-      </div></div>
-    </section>
-
-    <!-- 7 · EVERYTHING BEHIND IT -->
-    <section class="beat" data-beat="7">
-      <div class="wrap"><div class="bcard">
-        <p class="blabel">The deliverable</p>
-        <h2>The estimate, <span class="accent">and everything behind it.</span></h2>
-        <ul class="blist">
-          <li><b>Detailed Excel estimate.</b> Scope, quantities, unit rates and totals, in your preferred format.</li>
-          <li><b>Source-linked quantities.</b> The drawings, details and specifications behind the measured scope.</li>
-          <li><b>Clear pricing basis.</b> Rate sources, assumptions, allowances and exclusions, alongside the number.</li>
-          <li><b>Findings and clarifications.</b> Missing information and conflicting requirements, captured for your team.</li>
-        </ul>
-        <a class="btn btn-dark" href="sample/">View a sample deliverable <span class="arr">→</span></a>
-      </div></div>
-    </section>
   </div>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="sec-label">Services</p>
+          <h2 class="sec-title">Your project. <span class="accent">Priced and itemized.</span></h2>
+        </div>
+        <p class="sec-sub">For owner’s reps, project managers, architects, developers and contractors. Fixed fee, agreed before we start.</p>
+      </div>
+      <div class="svc-grid">
+        <a class="sv main" href="#start" data-need="BOQ & cost estimate">
+          <span class="n">01 · Most requested</span>
+          <h3>BOQ &amp; cost estimate</h3>
+          <p>A detailed breakdown of scope, quantities and costs, organized by trade. Delivered in Excel, with document references, pricing assumptions, allowances and exclusions.</p>
+          <div class="mini" aria-hidden="true">
+            <div class="q-row q-h"><span>Item</span><span>Qty</span><span>Rate</span><span>Total</span></div>
+            <div class="q-row"><span>TPO roofing, 60 mil</span><span>18,400 SF</span><span>$23.90</span><span>$439,760</span></div>
+            <div class="q-row"><span>Curtain wall</span><span>6,900 SF</span><span>$158.00</span><span>$1,090,200</span></div>
+            <div class="q-row"><span>Door hardware sets</span><span>146 EA</span><span>$880</span><span>$128,480</span></div>
+          </div>
+          <span class="go">Request a quote →</span>
+        </a>
+        <a class="sv" href="#start" data-need="Estimate reconciliation">
+          <span class="n">02</span>
+          <h3>Estimate reconciliation</h3>
+          <p>A line-by-line comparison of existing estimates. We identify differences in scope, quantities, rates and assumptions, and explain what drives the variance.</p>
+          <span class="go">Request a quote →</span>
+        </a>
+        <a class="sv" href="#start" data-need="Bid analysis">
+          <span class="n">03</span>
+          <h3>Bid analysis</h3>
+          <p>Contractor and subcontractor proposals compared against a common scope: prices, coverage, exclusions and items that need clarification.</p>
+          <span class="go">Request a quote →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW WE WORK ============ -->
+  <section class="sec tint" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="sec-label">How we work</p>
+          <h2 class="sec-title">Built with AI. <span class="accent">Led by cost professionals.</span></h2>
+        </div>
+        <p class="sec-sub">You receive the finished work. No software to learn, no platform to adopt.</p>
+      </div>
+      <ol class="flow">
+        <li>
+          <div class="ill" aria-hidden="true">
+            <svg viewBox="0 0 200 120"><rect x="34" y="14" width="96" height="70" rx="2" class="pp"/><rect x="26" y="22" width="96" height="70" rx="2" class="pp"/><rect x="18" y="30" width="96" height="70" rx="2" class="pp"/><path d="M28 44h40v22H28zM74 44h28v40H74zM28 72h40v12H28z" class="ln"/><path d="M92 30v70" class="ln th"/><rect class="scan" x="20" y="34" width="92" height="2"/><g class="pins"><circle cx="150" cy="40" r="4"/><circle cx="168" cy="62" r="4"/><circle cx="148" cy="84" r="4"/></g><path d="M114 50 Q130 40 146 40M114 66 Q140 62 164 62M114 84 Q130 86 144 84" class="dots"/></svg>
+          </div>
+          <span class="st">AI</span>
+          <h3>Reads and measures</h3>
+          <p>Our AI reads across drawings, specifications and addenda to extract scope, measure quantities and cross-check requirements.</p>
+        </li>
+        <li>
+          <div class="ill" aria-hidden="true">
+            <svg viewBox="0 0 200 120"><rect x="30" y="16" width="140" height="88" rx="6" class="pp"/><path d="M30 34h140" class="ln"/><g class="rows"><path d="M42 48h60M130 48h28M42 64h52M130 64h28M42 80h66M130 80h28" class="ln"/></g><path class="tick" d="M140 92l6 6 12-14"/></svg>
+          </div>
+          <span class="st">Cost professionals</span>
+          <h3>Price and review</h3>
+          <p>Our cost professionals develop and review the estimate: pricing, assumptions, allowances and the judgment calls that matter.</p>
+        </li>
+        <li>
+          <div class="ill" aria-hidden="true">
+            <svg viewBox="0 0 200 120"><rect x="56" y="12" width="88" height="96" rx="4" class="pp"/><path d="M56 30h88M80 30v78M56 48h88M56 66h88M56 84h88" class="ln th"/><rect x="62" y="16" width="28" height="9" rx="2" class="xl"/><text x="76" y="23" class="xt">XLSX</text><path class="arrow" d="M150 60h30M172 52l8 8-8 8"/></svg>
+          </div>
+          <span class="st">You</span>
+          <h3>Receive the work</h3>
+          <p>Your reviewed estimate, supporting documentation and findings, ready for your team to use.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
 
   <!-- ============ SAMPLE ============ -->
   <section class="sec" id="sample">
@@ -235,7 +174,7 @@
       <div class="sec-head">
         <div>
           <p class="sec-label">Sample deliverable</p>
-          <h2 class="sec-title">Open the <span class="accent">sample estimate.</span></h2>
+          <h2 class="sec-title">The estimate, <span class="accent">and everything behind it.</span></h2>
         </div>
         <p class="sec-sub">An excerpt in the format clients receive. The project is illustrative, not a client job.</p>
       </div>
@@ -254,6 +193,12 @@
             <tfoot><tr><td></td><td><b>Excerpt total</b><small>Range $1.74M – $2.12M</small></td><td></td><td></td><td></td><td class="n"><b>$1,929,800</b></td><td></td><td></td></tr></tfoot>
           </table>
         </div>
+      </div>
+      <div class="recv4">
+        <div><h3>Detailed Excel estimate</h3><p>Scope, quantities, unit rates and totals, organized in your preferred format.</p></div>
+        <div><h3>Source-linked quantities</h3><p>References to the drawings, details and specifications behind the measured scope.</p></div>
+        <div><h3>Clear pricing basis</h3><p>Rate sources, assumptions, allowances and exclusions, documented alongside the number.</p></div>
+        <div><h3>Findings and clarifications</h3><p>Missing information and conflicting requirements, captured for your project team.</p></div>
       </div>
       <div class="dl">
         <a class="btn btn-dark" href="sample/">View a sample deliverable <span class="arr">→</span></a>
