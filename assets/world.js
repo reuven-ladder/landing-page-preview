@@ -356,7 +356,30 @@ function start() {
   const v3 = new THREE.Vector3();
 
   /* ---------- camera keyframes ---------- */
-  const K = [
+  // Homepage (body.v9): content-led story. One state per beat, blended by scroll.
+  const HOME = document.body.classList.contains('v9');
+  const K_HOME = [
+    { p: [30, 21, 47], t: [-9.5, 7.5, 0], m: [2, 9, 0] },       // 0 hero: drawings in, estimate out
+    { p: [30, 23, 50], t: [-12, 7.5, 0], m: [3, 6, 1] },        // 1 BOQ & cost estimate
+    { p: [34, 24, 44], t: [-11, 9, 0], m: [3, 9, 1] },          // 2 estimate reconciliation
+    { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 },               // 3 bid analysis
+    { p: [-4, 15, 30], t: [-14, 11, 2] },                       // 4 AI reads and measures
+    { p: [30, 23, 50], t: [-12, 7.5, 0], m: [3, 6, 1] },        // 5 cost professionals price and review
+    { p: [36, 30, 64], t: [-12, 6.5, 0], m: [2, 9, 0] },        // 6 you receive the work
+    { p: [26, 19, 44], t: [-10, 7.5, 2], m: [3, 6, 2] }         // 7 everything behind it (findings)
+  ];
+  const S_HOME = [
+    { meas: 0, rec: 0, bids: 0, miss: 0, read: 0, scan: 0, gap: 0 },
+    { meas: 1, rec: 0, bids: 0, miss: 0, read: 0, scan: 0, gap: 0 },
+    { meas: 0, rec: 1, bids: 0, miss: 0, read: 0, scan: 0, gap: 0 },
+    { meas: 0, rec: 0, bids: 1, miss: 1, read: 0, scan: 0, gap: 0 },
+    { meas: 1, rec: 0, bids: 0, miss: 0, read: 1, scan: 1, gap: 0 },
+    { meas: 1, rec: 0, bids: 0, miss: 0, read: 0, scan: 0, gap: 0 },
+    { meas: 0, rec: 0, bids: 0, miss: 0, read: 0.3, scan: 0, gap: 0 },
+    { meas: 0, rec: 0, bids: 0, miss: 0, read: 0, scan: 0, gap: 1 }
+  ];
+  const panels = [...root.querySelectorAll('.panel3[data-beats]')].map((el) => ({ el, beats: el.dataset.beats.split(',').map(Number) }));
+  const K_APPROACH = [
     { p: [30, 21, 47], t: [-9.5, 7.5, 0], m: [2, 9, 0] },      // 0 hero
     { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 1 three bids
     { p: [96, 30, 70], t: [6, 6, 2], s: 0.12 },   // 2 least complete
@@ -367,6 +390,7 @@ function start() {
     { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 7 same building
     { p: [34, 30, 62], t: [-11, 6.5, 0], m: [2, 9, 0] }        // 8 cta
   ];
+  const K = HOME ? K_HOME : K_APPROACH;
 
   /* ---------- scroll ---------- */
   let target = 0, prog = 0;
@@ -418,10 +442,31 @@ function start() {
     const sh = lerp(K[i].s || 0, K[i + 1].s || 0, f) * (innerWidth < 760 ? 0 : 1);
     camera.setViewOffset(innerWidth, innerHeight, -sh * innerWidth, 0, innerWidth, innerHeight);
 
+    // story state
+    let st;
+    if (HOME) {
+      const a = S_HOME[i], b = S_HOME[Math.min(i + 1, S_HOME.length - 1)];
+      st = {}; for (const k in a) st[k] = lerp(a[k], b[k], f);
+      st.fixed = 0;
+    } else {
+      st = {
+        bids: Math.max(win(p, 0.45, 1, 2.25, 2.7), win(p, 6.45, 7, 8.5, 8.8)),
+        miss: win(p, 1.3, 1.8, 2.5, 3),
+        fixed: sm((p - 6.4) / 0.6),
+        gap: win(p, 2.5, 3, 3.6, 4.2),
+        meas: win(p, 3.5, 4, 5.6, 6.2),
+        read: win(p, 2.6, 3.2, 4.4, 5),
+        scan: win(p, 3.3, 3.7, 4.2, 4.6),
+        rec: 0
+      };
+    }
+    // stagger part highlights on the approach page; on the homepage each beat shows them together
+    const stag = (o) => HOME ? 1 : sm((p - o) / 0.3);
+
     // bidders
-    const bids = Math.max(win(p, 0.45, 1, 2.25, 2.7), win(p, 6.45, 7, 8.5, 8.8));
-    const missing = win(p, 1.3, 1.8, 2.5, 3);   // missing parts shown as red ghosts
-    const fixed = sm((p - 6.4) / 0.6);          // after the addendum every bidder has every part
+    const bids = st.bids;
+    const missing = st.miss;                    // missing parts shown as red ghosts
+    const fixed = st.fixed;                     // after the addendum every bidder has every part
     [B, Cb].forEach((b) => {
       b.g.visible = bids > 0.01;
       b.shadow.uniforms.uOpacity.value = 0.55 * bids;
@@ -429,7 +474,7 @@ function start() {
         const isGhost = !!pt.ghost;
         pt.setOpacity(bids * (isGhost ? fixed : 1));
         pt.setGhost(isGhost ? missing * bids * (1 - fixed) : 0);
-        if (isGhost) pt.setTint(win(p, 1.4, 2, 2.5, 3) * 0.6, RED);
+        if (isGhost) pt.setTint(missing * 0.6, RED);
       });
     });
 
@@ -441,16 +486,23 @@ function start() {
     root.classList.toggle('hero-price', win(L, 0.55, 0.6, 0.9, 0.95) * heroVis > 0.5);
 
     // gaps: canopy pulses red on A
-    const gap = win(p, 2.5, 3, 3.6, 4.2);
-    // measure: highlight A's parts one by one
-    const meas = Math.max(win(p, 3.5, 4, 5.6, 6.2), hMeas);
+    const gap = st.gap;
+    // measure: highlight A's parts (one by one on the approach page)
+    const meas = Math.max(st.meas, hMeas);
+    const rec = st.rec;
     const hiParts = ['roof', 'cw', 'store'];
-    hiParts.forEach((k, j) => A.P[k].setTint(meas * Math.max(sm((p - 3.55 - j * 0.12) / 0.3), heroVis), BLUE));
-    A.P.canopy.setTint(Math.max(gap * (0.6 + 0.4 * Math.sin(T * 4)), meas * Math.max(sm((p - 3.95) / 0.3), heroVis)), RED);
-    trails.forEach((m, j) => { m.opacity = meas * Math.max(sm((p - 3.55 - j * 0.12) / 0.3), heroVis); m.dashOffset -= dt * 1.4; });
+    hiParts.forEach((k, j) => {
+      const m = meas * Math.max(stag(3.55 + j * 0.12), heroVis);
+      const red = k === 'cw' ? Math.max(rec, HOME ? gap : 0) : 0;
+      if (red > m) A.P[k].setTint(red * (0.65 + 0.35 * Math.sin(T * 3)), RED); else A.P[k].setTint(m, BLUE);
+    });
+    A.P.rtu.setTint(rec * (0.65 + 0.35 * Math.sin(T * 3 + 1)), RED);
+    A.P.canopy.setTint(Math.max(HOME ? 0 : gap * (0.6 + 0.4 * Math.sin(T * 4)), meas * Math.max(stag(3.95), heroVis)), RED);
+    A.P.podium.setTint(HOME ? gap * 0.45 : 0, OCHRE);
+    trails.forEach((m, j) => { m.opacity = meas * Math.max(stag(3.55 + j * 0.12), heroVis); m.dashOffset -= dt * 1.4; });
 
     // sheets: bob, highlight on read, scan line
-    const read = Math.max(win(p, 2.6, 3.2, 4.4, 5), hScan);
+    const read = Math.max(st.read, hScan);
     Object.values(sheets).forEach((s, j) => {
       const u = s.userData;
       s.position.y = u.base + Math.sin(T * 0.8 + u.ph) * 0.25;
@@ -460,7 +512,7 @@ function start() {
       u.page.material.opacity = 1 - bids;
       u.page.material.transparent = bids > 0.01;
       u.shadow.visible = bids < 0.4;
-      const sc = Math.max(win(p, 3.3, 3.7, 4.2, 4.6), hScan);
+      const sc = Math.max(st.scan, hScan);
       u.scan.material.opacity = sc * 0.9;
       u.scan.position.y = 1.9 - ((T * 0.6 + j * 0.27) % 1) * 3.8;
     });
@@ -471,7 +523,7 @@ function start() {
     const W = innerWidth, H = innerHeight;
     camera.updateMatrixWorld();
     const vis = {
-      bid: bids * (1 - fixed), miss: missing * (1 - fixed), gap, meas, ok: sm((p - 6.6) / 0.4) * win(p, 6.4, 7, 8.5, 8.8)
+      bid: bids * (1 - fixed), miss: missing * (1 - fixed), gap, meas, rec, ok: HOME ? 0 : sm((p - 6.6) / 0.4) * win(p, 6.4, 7, 8.5, 8.8)
     };
     anchors.forEach((a) => {
       const show = vis[a.el.dataset.show] || 0;
@@ -482,8 +534,9 @@ function start() {
       a.el.classList.toggle('on', on);
     });
 
-    // HTML panels
-    document.documentElement.style.setProperty('--bids', bids.toFixed(3));
+    // HTML panels (homepage): each panel lists the beats it belongs to
+    const rb = Math.round(p);
+    panels.forEach((q) => q.el.classList.toggle('on', q.beats.includes(rb)));
     
     renderer.render(scene, camera);
   }
