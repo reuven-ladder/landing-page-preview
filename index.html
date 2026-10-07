@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Analytics (GA4) -->
+  <script>
+    var GA_ID = 'G-2SN38LE7MF';
+    (function(){
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+  <title>Ladder — Drawings in. A defensible estimate out.</title>
+  <meta name="description" content="Independent cost estimates for owner's reps, OPMs and architects. Before tender, make sure every bidder prices the same building. Fixed-fee proposal in 24 hours." />
+  <meta name="theme-color" content="#fafaf7" />
+  <meta property="og:title" content="Ladder — Drawings in. A defensible estimate out." />
+  <meta property="og:description" content="Independent cost estimates where every line links to its source sheet. AI does the reading. People make the calls." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getladder.ai/" />
+  <meta property="og:image" content="https://getladder.ai/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
+  <link rel="stylesheet" href="assets/world.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body class="home" data-beat="0">
+
+<header class="site-header">
+  <div class="topbar">
+    <a class="brand" href="./" aria-label="Ladder home">Ladder<span class="accent">.</span></a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#b1">How it works</a>
+      <a href="#proof">Backtests</a>
+      <a href="#team">The firm</a>
+      <a href="#faq">FAQ</a>
+      <span class="btns">
+        <a class="btn btn-outline btn-sm" href="https://calendar.app.google/ddxDKCrxcTo2gX5bA" target="_blank" rel="noopener">Book a call</a>
+        <a class="btn btn-dark btn-sm" href="#start">Send a drawing set</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- The world: one ink-drawn site behind the whole story -->
+<div class="world" id="world" aria-hidden="true">
+  <canvas></canvas>
+  <img class="fallback" src="assets/hero-art.svg" alt="" />
+  <div class="grain"></div>
+  <div class="ov" id="ov">
+    <div class="lbl" data-at="A.body" data-dy="11" data-show="bid"><b>A</b></div>
+    <div class="lbl" data-at="B.body" data-dy="11" data-show="bid"><b>B</b></div>
+    <div class="lbl" data-at="C.body" data-dy="11" data-show="bid"><b>C</b></div>
+    <div class="tag3 bad" data-at="B.rtu" data-dy="1.5" data-show="miss"><i></i><div><b>Rooftop units</b><small>Bidder B · not priced</small></div></div>
+    <div class="tag3 bad" data-at="C.canopy" data-dy="0.5" data-show="miss"><i></i><div><b>Canopy &amp; paving</b><small>Bidder C · excluded</small></div></div>
+    <div class="tag3 bad" data-at="A.canopy" data-dy="0.3" data-show="gap"><i></i><div><b>Canopy height?</b><small>Not dimensioned · S-201</small></div></div>
+    <div class="tag3 bad" data-at="sheet.A-501" data-dy="0" data-show="gap"><i></i><div><b>Roof spec ≠ A-501</b><small>60 mil vs. 80 mil · conflict</small></div></div>
+    <div class="tag3" data-at="A.roof" data-dy="1.2" data-show="meas"><i></i><div><b>TPO roofing <em>18,400 SF</em></b><small>↗ A-501 · Spec 07 54 23</small></div></div>
+    <div class="tag3" data-at="A.cw" data-dy="0" data-show="meas"><i></i><div><b>Curtain wall <em>6,950 SF</em></b><small>↗ A-301 · Add. 2</small></div></div>
+    <div class="tag3" data-at="A.store" data-dy="0" data-show="meas"><i></i><div><b>Storefront <em>1,840 SF</em></b><small>↗ A-601 · Spec 08 41 13</small></div></div>
+    <div class="tag3 bad" data-at="A.canopy" data-dy="0.3" data-show="meas"><i></i><div><b>Canopy height <em>RFI #7</em></b><small>We asked. We didn’t guess.</small></div></div>
+    <div class="tag3 good" data-at="A.body" data-dy="12.5" data-show="ok"><i></i><div><b>Full scope</b><small>Bidder A</small></div></div>
+    <div class="tag3 good" data-at="B.body" data-dy="12.5" data-show="ok"><i></i><div><b>Full scope</b><small>Bidder B</small></div></div>
+    <div class="tag3 good" data-at="C.body" data-dy="12.5" data-show="ok"><i></i><div><b>Full scope</b><small>Bidder C</small></div></div>
+  </div>
+
+  <!-- bid tab: the card that changes state -->
+  <div class="panel3 bidtab">
+    <div class="p-head"><span>Bid tabulation</span><span>Illustrative</span></div>
+    <div class="b-row"><span class="who">Bidder A</span><span class="st"><s class="ok">Full scope</s></span><span class="amt"><i class="v1">$4.12M</i><i class="v2">$4.21M</i></span></div>
+    <div class="b-row"><span class="who">Bidder B</span><span class="st"><s class="no">Silent: rooftop units</s><s class="ok">Full scope</s></span><span class="amt"><i class="v1">$3.71M</i><i class="v2">$4.16M</i></span></div>
+    <div class="b-row low"><span class="who">Bidder C <em>Low bid</em></span><span class="st"><s class="no">Excluded: canopy, paving</s><s class="ok">Full scope</s></span><span class="amt"><i class="v1">$3.38M</i><i class="v2">$4.09M</i></span></div>
+    <div class="p-foot"><span class="f1">Spread 22% · not the same building</span><span class="f2">Spread 3% · same building</span></div>
+  </div>
+
+  <!-- the estimate: fills in on price, stamped on review -->
+  <div class="panel3 estcard">
+    <div class="p-head"><span>Estimate · Rev 2 · 90% CD</span><span>Uniformat</span></div>
+    <div class="e-row"><div><b>B3010 · TPO roofing, 60 mil</b><small>18,400 SF ↗ A-501 · Rate: 3 sub quotes</small></div><span>$261,300</span></div>
+    <div class="e-row"><div><b>B2020 · Curtain wall</b><small>6,950 SF ↗ A-301 · Rate: unit cost, escalated</small></div><span>$820,100</span></div>
+    <div class="e-row"><div><b>B2030 · Storefront &amp; entries</b><small>1,840 SF ↗ A-601 · Rate: 4 past jobs</small></div><span>$212,400</span></div>
+    <div class="e-row ask"><div><b>B1020 · Entry canopy</b><small>Allowance until RFI #7 is answered</small></div><span>$45,000</span></div>
+    <div class="e-tot"><span>Total, every line with its basis</span><b>$4.18M<small>Range $4.02M – $4.36M</small></b></div>
+    <div class="stamp"><b>✓ Reviewed</b><small>by a cost professional</small></div>
+  </div>
+</div>
+
+<main id="top">
+  <div class="story" id="story">
+
+    <!-- 0 · HERO -->
+    <section class="beat hero3" data-beat="0">
+      <div class="wrap">
+        <h1>Drawings in.<br/><span class="accent">A defensible estimate out.</span></h1>
+        <p class="lede">An independent cost estimating firm for owner’s reps, OPMs and architects. AI reads every sheet. A cost professional reviews every estimate.</p>
+        <div class="cta-row">
+          <a class="btn btn-dark btn-lg" href="#start">Send a drawing set <span class="arr">→</span></a>
+          <a class="btn btn-outline btn-lg" href="#b1">See how it works <span>↓</span></a>
+        </div>
+        <p class="fine">Fixed-fee proposal in 24 hours · NDA on request</p>
+      </div>
+      <div class="logos" aria-label="Teams that have used Ladder">
+        <p class="label wrap">Teams that have used Ladder</p>
+        <div class="marquee"><div class="marquee-track">
+          <img src="assets/logos/yorke-construction-corporation.png" alt="Yorke Construction Corporation" />
+        <img src="assets/logos/glynn-group.png" alt="Glynn Group" />
+        <img src="assets/logos/lema-construction.png" alt="LEMA Construction" />
+        <img src="assets/logos/romsdahl-companies.png" alt="Romsdahl Companies" />
+        <img src="assets/logos/ador-builders.png" alt="ADOR Builders" />
+        <img src="assets/logos/ice-group-of-companies.png" alt="ICE Group of Companies" />
+        <img src="assets/logos/matotah.png" alt="Matotah" />
+        <img src="assets/logos/central-valley-hardware.png" alt="Central Valley Hardware" />
+        <img src="assets/logos/artisan-design.png" alt="Artisan Design" />
+        <img src="assets/logos/elysium.png" alt="Elysium" />
+        </div></div>
+      </div>
+    </section>
+
+    <!-- 1 · THREE BIDS -->
+    <section class="beat" data-beat="1" id="b1">
+      <div class="wrap"><div class="bcard">
+        <h2>Three bidders.<br/><span class="bad">Three different buildings.</span></h2>
+        <p>Same drawings. Each bidder fills the gaps its own way.</p>
+        <p class="sub">On bid day, the numbers look comparable.</p>
+      </div></div>
+    </section>
+
+    <!-- 2 · LEAST COMPLETE -->
+    <section class="beat" data-beat="2">
+      <div class="wrap"><div class="bcard">
+        <h2>The low bid was<br/><span class="bad">the least complete.</span></h2>
+        <p>One left out the canopy. One never priced the rooftop units. You find out after award, as change orders.</p>
+        <p class="sub">So where do the gaps come from?</p>
+      </div></div>
+    </section>
+
+    <!-- 3 · GAPS -->
+    <section class="beat r" data-beat="3">
+      <div class="wrap"><div class="bcard">
+        <h2>The documents<br/><span class="bad">leave gaps.</span></h2>
+        <p>A canopy with no height. A spec that disagrees with the roof plan. Every gap becomes a guess, and every bidder guesses differently.</p>
+        <p class="sub">Ladder closes them before tender.</p>
+      </div></div>
+    </section>
+
+    <!-- 4-7 · HOW -->
+    <section class="beat r" data-beat="4">
+      <div class="wrap"><div class="bcard">
+        <div class="trk"><span class="on">Read</span><i></i><span>Measure</span><i></i><span>Price</span><i></i><span>Review</span></div>
+        <h2>Every sheet <span class="accent">read.</span></h2>
+        <p>Drawings, specs and addenda, cross-checked and sorted by trade. Conflicts surface on day one.</p>
+      </div></div>
+    </section>
+
+    <section class="beat" data-beat="5">
+      <div class="wrap"><div class="bcard">
+        <div class="trk"><span class="done">Read</span><i></i><span class="on">Measure</span><i></i><span>Price</span><i></i><span>Review</span></div>
+        <h2>Quantities, <span class="accent">with receipts.</span></h2>
+        <p>Every area, count and length is pinned to the sheet it came from. When the drawings don’t say, we don’t guess. We ask.</p>
+      </div></div>
+    </section>
+
+    <section class="beat" data-beat="6">
+      <div class="wrap"><div class="bcard">
+        <div class="trk"><span class="done">Read</span><i></i><span class="done">Measure</span><i></i><span class="on">Price</span><i></i><span>Review</span></div>
+        <h2>A number, <span class="accent">and its basis.</span></h2>
+        <p>Every line states its rate source and assumptions. You get a number and a stated range, not a guess.</p>
+      </div></div>
+    </section>
+
+    <section class="beat" data-beat="7">
+      <div class="wrap"><div class="bcard">
+        <div class="trk"><span class="done">Read</span><i></i><span class="done">Measure</span><i></i><span class="done">Price</span><i></i><span class="on">Review</span></div>
+        <h2>Reviewed. <span class="accent">Then delivered.</span></h2>
+        <p>A cost professional checks every call that moves the number. You get Excel in Uniformat or MasterFormat, plus a findings report for the design team.</p>
+      </div></div>
+    </section>
+
+    <!-- 8 · SAME BUILDING -->
+    <section class="beat" data-beat="8">
+      <div class="wrap"><div class="bcard">
+        <h2>Same set.<br/><span class="accent">Same building.</span></h2>
+        <p>The findings go out as an addendum before tender. Bids come back on the same scope, so the low bid is really the low bid.</p>
+      </div></div>
+    </section>
+
+    <!-- 9 · CTA -->
+    <section class="beat cta3" data-beat="9">
+      <div class="wrap"><div class="bcard wide">
+        <h2>Before tender, make sure <span class="accent">everyone prices the same building.</span></h2>
+        <div class="cta-row">
+          <a class="btn btn-dark btn-lg" href="#start">Send a drawing set <span class="arr">→</span></a>
+          <a class="btn btn-outline btn-lg" href="sample/">See a sample estimate</a>
+        </div>
+        <p class="fine">Fixed-fee proposal in 24 hours · Delivery in 5–10 business days</p>
+      </div></div>
+    </section>
+  </div>
+
+  <!-- ============ PROOF ============ -->
+  <section class="sec" id="proof">
+    <div class="wrap split">
+      <div>
+        <p class="sec-label">Backtests</p>
+        <h2 class="sec-title">We test ourselves on public bids. <span class="accent">Misses included.</span></h2>
+        <p class="sec-sub">We estimate from the bid documents alone, without seeing the results, then compare with the award.</p>
+      </div>
+      <div class="tab3">
+        <div class="t-head"><span>Project</span><span>Ladder</span><span>Awarded</span><span>Diff.</span></div>
+        <div class="t-row"><span><b>Everett Old High School</b><small>Roof replacement · bid #25-14 · Feb 2025</small></span><span>$3.77M</span><span>$3.14M</span><span class="hi">+20%</span></div>
+        <p class="t-note">Run 1: AI only, before professional review. Roofing filed sub-bid. New results are posted as they finish.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT YOU RECEIVE ============ -->
+  <section class="sec tint" id="receive">
+    <div class="wrap">
+      <p class="sec-label">What you receive</p>
+      <h2 class="sec-title">One estimate. <span class="accent">Everything behind it.</span></h2>
+      <div class="recv">
+        <div class="rc"><span class="n">01</span><h3>The estimate</h3><p>Excel, in Uniformat, MasterFormat or your template.</p></div>
+        <div class="rc"><span class="n">02</span><h3>The receipts</h3><p>Every measured line links to its sheet, detail or spec section.</p></div>
+        <div class="rc"><span class="n">03</span><h3>The basis</h3><p>Rate sources, assumptions, exclusions and escalation, stated.</p></div>
+        <div class="rc"><span class="n">04</span><h3>The findings</h3><p>Gaps, conflicts and missing dimensions, written as questions for the design team.</p></div>
+      </div>
+      <div class="recv-foot">
+        <p>Already have an estimate, or bids in hand? We reconcile estimates and review bids against the same evidence.</p>
+        <a class="btn btn-dark" href="sample/">See a sample estimate <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE FIRM ============ -->
+  <section class="sec" id="team">
+    <div class="wrap">
+      <p class="sec-label">The firm</p>
+      <div class="team-head">
+        <h2 class="sec-title">A cost estimating firm, <span class="accent">not a software tool.</span></h2>
+        <p class="sec-sub">AI does the reading. People make the calls, and stand behind the number.</p>
+      </div>
+      <div class="team">
+        <article class="badge" tabindex="0">
+          <div class="role-tag">Co-founder <span>Product &amp; AI</span></div>
+          <div class="photo">
+            <img src="assets/team/reuven-amar.webp" alt="Reuven Amar" loading="lazy" />
+            
+          </div>
+          <div class="meta"><h3>Reuven Amar</h3><p>Co-founder · Builds the machine</p></div>
+          <div class="bio">15+ years in AI and computer vision. Ex-CTO, construction tech.<br/><a href="https://www.linkedin.com/in/reuven-amar-780b03190/" target="_blank" rel="noopener">LinkedIn →</a></div>
+        </article>
+        <article class="badge" tabindex="0">
+          <div class="role-tag">Co-founder <span>CEO</span></div>
+          <div class="photo">
+            <img src="assets/team/omri-admon.webp" alt="Omri Admon" loading="lazy" />
+            
+          </div>
+          <div class="meta"><h3>Omri Admon</h3><p>Co-founder · Runs the firm</p></div>
+          <div class="bio">Built ops systems for Fortune 100s. Your point of contact.<br/><a href="https://www.linkedin.com/in/omri-admon-74405877/" target="_blank" rel="noopener">LinkedIn →</a></div>
+        </article>
+        <article class="badge pro" tabindex="0">
+          <div class="role-tag">Reviewer <span>Cost professional</span></div>
+          <div class="photo"><div class="big-stamp">✓ REVIEWED<small>BEFORE DELIVERY</small></div></div>
+          <div class="meta"><h3>Experienced cost professional</h3><p>Reviews every estimate</p></div>
+          <div class="bio">Checks every call that moves the number. Named in your proposal, with experience and scope of review.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="sec tint" id="faq">
+    <div class="wrap split">
+      <div>
+        <p class="sec-label">Questions</p>
+        <h2 class="sec-title">Before you <span class="accent">send a set.</span></h2>
+      </div>
+      <div class="faq">
+        <details><summary>Who reviews the estimate?</summary><div class="a">An experienced cost professional, named in your proposal with their experience and scope of review.</div></details>
+        <details><summary>What files do you need?</summary><div class="a">PDF drawings, specs and addenda. CAD or BIM optional.</div></details>
+        <details><summary>What if the design is at SD or DD?</summary><div class="a">We price what’s drawn, carry stated allowances for the rest, and list what’s missing.</div></details>
+        <details><summary>How is AI used?</summary><div class="a">It reads the documents and measures quantities. A cost professional decides anything that needs judgment.</div></details>
+        <details><summary>Who sees our documents?</summary><div class="a">Only the team on your project. NDA on request.</div></details>
+        <details><summary>How long, and what does it cost?</summary><div class="a">A fixed-fee proposal within 24 hours. Delivery in 5–10 business days.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="sec" id="start">
+    <div class="wrap">
+      <div class="lead">
+        <div>
+          <p class="sec-label">Contact</p>
+          <h2 class="sec-title">Send a drawing set. <span class="accent">Fixed fee in 24 hours.</span></h2>
+          <ol class="steps3">
+            <li><span><b>Send the set.</b> Drawings, specs, addenda. NDA on request.</span></li>
+            <li><span><b>Get a fixed fee</b> and a delivery date within 24 hours.</span></li>
+            <li><span><b>Say go.</b> Your estimate arrives in 5–10 business days.</span></li>
+          </ol>
+          <p class="alt-cta">Prefer to talk first? <a class="link-arrow" href="https://calendar.app.google/ddxDKCrxcTo2gX5bA" target="_blank" rel="noopener">Book a call →</a> · <a href="mailto:omri@getladder.ai">omri@getladder.ai</a></p>
+        </div>
+        <div class="form">
+          <form id="projectForm" data-formspree="https://formspree.io/f/xgobzrwq" novalidate>
+            <input type="hidden" name="_subject" value="New project from getladder.ai" />
+            <div class="row">
+              <div class="field"><label for="f-name">Name <em>*</em></label><input id="f-name" name="name" autocomplete="name" required /></div>
+              <div class="field"><label for="f-email">Work email <em>*</em></label><input id="f-email" type="email" name="email" autocomplete="email" required /></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="f-co">Organization <em>*</em></label><input id="f-co" name="company" autocomplete="organization" required /></div>
+              <div class="field"><label for="f-role">Your role</label>
+                <select id="f-role" name="role">
+                  <option>Owner’s rep / OPM</option>
+                  <option>Architect / designer</option>
+                  <option>Owner / district</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="f-need">What you need</label>
+                <select id="f-need" name="need">
+                  <option>Independent estimate</option>
+                  <option>Estimate reconciliation</option>
+                  <option>Bid review</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field"><label for="f-link">Link to documents</label><input id="f-link" type="url" name="documents_link" placeholder="Drive, Dropbox, plan room…" /></div>
+            </div>
+            <div class="field"><label for="f-msg">About the project</label><textarea id="f-msg" name="message" placeholder="Building type, size, design phase, bid date."></textarea></div>
+            <button type="submit" class="btn btn-dark" disabled>Send drawing set <span class="arr">→</span></button>
+            <p class="note"><em>*</em> Required · Confidential · No newsletter</p>
+            <p class="err" role="alert">Something went wrong. Email <a href="mailto:omri@getladder.ai">omri@getladder.ai</a> instead.</p>
+          </form>
+          <div class="ok" role="status"><h3>Got it.</h3><p>Your fixed-fee proposal is on its way within 24 hours.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="panel">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="./">Ladder<span class="accent">.</span></a>
+        <p>An independent cost estimating firm. Before tender, everyone prices the same building.</p>
+        <p><a href="mailto:omri@getladder.ai">omri@getladder.ai</a></p>
+      </div>
+      <div>
+        <h4>Ladder</h4>
+        <ul>
+          <li><a href="#b1">How it works</a></li>
+          <li><a href="#proof">Backtests</a></li>
+          <li><a href="sample/">Sample estimate</a></li>
+          <li><a href="#team">Team</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="company/">About</a></li>
+          <li><a href="company/#careers">Careers · cost professionals</a></li>
+          <li><a href="https://www.linkedin.com/company/ladder-ai/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://medium.com/ladder-ai" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="privacy-policy/">Privacy policy</a></li>
+          <li><a href="terms-of-use/">Terms of use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="year">2026</span> Ladder</span>
+      <span>Drawn by Ladder AI · Reviewed by people</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('[data-need]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var s = document.getElementById('f-need');
+      if (s) s.value = a.getAttribute('data-need');
+    });
+  });
+</script>
+<script type="module" src="assets/world.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
