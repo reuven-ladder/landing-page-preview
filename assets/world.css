@@ -114,7 +114,7 @@ main{position:relative;z-index:1}
 .hero3{min-height:100svh;flex-direction:column;justify-content:center;padding-top:68px}
 .hero3::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--paper) 0,rgba(250,250,247,.94) 28%,rgba(250,250,247,.5) 42%,rgba(250,250,247,0) 56%)}
 .hero3 h1{font-size:clamp(3rem,5.7vw,5.6rem);font-weight:700;letter-spacing:-.05em;line-height:.96;max-width:10.5ch}
-.hero3 .lede{font-size:clamp(1.05rem,1.35vw,1.22rem);color:var(--ink-2);max-width:31rem;margin-top:1.6rem;line-height:1.55}
+.hero3 .lede{font-size:clamp(1.05rem,1.35vw,1.22rem);color:var(--ink-2);max-width:33rem;margin-top:1.6rem;line-height:1.55}
 .hero3 .cta-row{margin-top:2.1rem}
 .hero3 .kicker{font:600 .8rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:1.4rem}
 
@@ -241,7 +241,7 @@ main{position:relative;z-index:1}
 /* ---------- v10: workflow (contained animation) ---------- */
 .wf{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
 .wf-steps{list-style:none;margin:0;padding:0}
-.wf-steps li{min-height:52vh;display:flex;flex-direction:column;justify-content:center;padding:1.25rem 0 1.25rem 1.4rem;border-left:2px solid var(--line-strong);transition:border-color .3s}
+.wf-steps li{min-height:36vh;display:flex;flex-direction:column;justify-content:center;padding:1.25rem 0 1.25rem 1.4rem;border-left:2px solid var(--line-strong);transition:border-color .3s}
 .wf-steps li .n{font:600 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);transition:color .3s}
 .wf-steps li h3{font-size:clamp(1.35rem,2.2vw,1.75rem);letter-spacing:-.03em;margin-top:.6rem;color:var(--ink-3);transition:color .3s}
 .wf-steps li p{color:var(--ink-3);margin-top:.5rem;max-width:30rem;transition:color .3s}
@@ -351,6 +351,23 @@ main{position:relative;z-index:1}
 .role-card>p{font-size:.92rem;color:var(--ink-2);margin-top:.7rem}
 .role-card a{display:inline-block;margin-top:.6rem;font-size:.82rem;font-weight:600}
 
+/* v11: numbered markers shared by hero and workflow */
+.tag3 i{left:-10px;top:-10px;width:20px;height:20px;color:#fff;font:700 .62rem/15px var(--mono);font-style:normal;text-align:center}
+.tag3.rf i{background:var(--rfi)}
+.tag3.rf i::after{border-color:var(--rfi)}
+.herocard .q-row em{display:inline-grid;place-items:center;width:17px;height:17px;margin-right:.45rem;border-radius:50%;background:var(--blue);color:#fff;font:700 .58rem/1 var(--mono);font-style:normal;vertical-align:-3px}
+.herocard .q-row em.r{background:var(--rfi)}
+.hero3 .fit{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.3rem;max-width:36rem}
+.hero3 .fit span{font:600 .66rem/1 var(--mono);padding:.42rem .55rem;border:1px solid var(--line-strong);border-radius:999px;background:rgba(255,255,255,.7);color:var(--ink-2)}
+.hero3 .fit+.fine{margin-top:.9rem}
+.proof-strip{padding:2rem 0 2.2rem;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);background:var(--paper,#fff)}
+.proof-strip .label{font:500 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:1.1rem}
+.proof-strip .row{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem 2.75rem}
+.proof-strip img{height:28px;width:auto;filter:grayscale(1);opacity:.6;mix-blend-mode:multiply}
+.rc-list{list-style:none;margin:.8rem 0 0;padding:0;display:grid;gap:.35rem}
+.rc-list li{font-size:.85rem;color:var(--ink-2);padding-left:1.1rem;position:relative}
+.rc-list li::before{content:"✓";position:absolute;left:0;color:var(--blue);font-weight:700}
+
 @media (max-width:960px){
   .bridge-in,.case,.guide,.roles{grid-template-columns:1fr}
   .wf{grid-template-columns:1fr}
@@ -405,4 +422,8 @@ main{position:relative;z-index:1}
 }
 @media (prefers-reduced-motion:reduce){
   .tag3.on i::after{animation:none}
+}
+@media (max-width:760px){
+  .hero3 .fine{display:inline-block;background:rgba(250,249,245,.9);padding:.25rem .45rem;border-radius:4px}
+  .hero3 .fit span{background:rgba(255,255,255,.92)}
 }
