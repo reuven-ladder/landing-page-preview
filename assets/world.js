@@ -356,7 +356,6 @@ function start() {
   const v3 = new THREE.Vector3();
 
   /* ---------- camera keyframes ---------- */
-  const AMBIENT = !document.body.classList.contains('approach');
   const K = [
     { p: [30, 21, 47], t: [-9.5, 7.5, 0], m: [2, 9, 0] },      // 0 hero
     { p: [110, 40, 82], t: [-5, 7, 0], s: 0.12 }, // 1 three bids
@@ -380,9 +379,7 @@ function start() {
     else for (let i = 0; i < cs.length - 1; i++) if (vc >= cs[i] && vc < cs[i + 1]) { p = i + (vc - cs[i]) / (cs[i + 1] - cs[i]); break; }
     target = p;
     const story = document.getElementById('story').getBoundingClientRect();
-    // keep rendering while the hero or a see-through section is on screen
-    const win2 = [...document.querySelectorAll('[data-window]')].some((el) => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; });
-    root.classList.toggle('off', story.bottom < 0 && !win2);
+    root.classList.toggle('off', story.bottom < 0);
     document.body.dataset.beat = Math.round(p);
   }
   addEventListener('scroll', readScroll, { passive: true });
@@ -417,15 +414,6 @@ function start() {
     const mob = innerWidth < 760;
     ct.fromArray(mob && K[i].m ? K[i].m : K[i].t).lerp(tmpB.fromArray(mob && K[i + 1].m ? K[i + 1].m : K[i + 1].t), f);
     cp.x += Math.sin(T * 0.13) * 0.9; cp.y += Math.sin(T * 0.17) * 0.4;
-    // homepage: ambient drift. The camera slowly orbits and rises as the page scrolls.
-    if (AMBIENT) {
-      const sf = clamp(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight));
-      const a = sf * 1.15, dx = cp.x - ct.x, dz = cp.z - ct.z;
-      cp.x = ct.x + dx * Math.cos(a) - dz * Math.sin(a);
-      cp.z = ct.z + dx * Math.sin(a) + dz * Math.cos(a);
-      cp.y += sf * 12;
-      ct.x += sf * 8; ct.y -= sf * 1.5;
-    }
     camera.position.copy(cp); camera.lookAt(ct);
     const sh = lerp(K[i].s || 0, K[i + 1].s || 0, f) * (innerWidth < 760 ? 0 : 1);
     camera.setViewOffset(innerWidth, innerHeight, -sh * innerWidth, 0, innerWidth, innerHeight);
@@ -446,7 +434,7 @@ function start() {
     });
 
     // hero loop: documents -> measured scope -> priced estimate, without scrolling
-    const heroVis = (1 - sm(p / 0.6)) * (AMBIENT ? 1 - sm(scrollY / (innerHeight * 0.55)) : 1);
+    const heroVis = 1 - sm(p / 0.6);
     const L = (T % 11) / 11;
     const hScan = win(L, 0.02, 0.08, 0.3, 0.36) * heroVis;
     const hMeas = win(L, 0.28, 0.36, 0.9, 0.97) * heroVis;
