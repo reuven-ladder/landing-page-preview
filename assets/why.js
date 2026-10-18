@@ -150,21 +150,23 @@
     secs.forEach(s => { s.th = s.tx.offsetHeight; });
     let band = 0;
     secs.forEach((s, i) => {
-      s.end = i + 1 < secs.length ? secs[i + 1].t : T;
+      const last = i === secs.length - 1;
+      s.end = last ? T : secs[i + 1].t;
       s.hold = Math.max(0, s.end - s.t - (i ? MOVE : 0)) * k;
       if (mobile) {
         // pinned to the bottom of the screen; the next chapter's text pushes it up
         s.pin = vh - 12 - s.th;
         s.tx.style.bottom = '12px';
         // the intro fills the first screen, so its text is in place from the start
-        s.n.style.height = Math.round((i ? s.th : Math.max(s.th, vh - TOP - 12)) + s.hold) + 'px';
+        // the last chapter ends the page: the bottom of the scroll is the end of the story
+        s.n.style.height = Math.round((i ? s.th + (last ? 12 : 0) : Math.max(s.th, vh - TOP - 12)) + s.hold) + 'px';
         if (i > 0 && i < secs.length - 1) band = Math.max(band, s.th + 24);
       } else {
         // held at the middle of the screen
         s.pin = Math.max(TOP + 24, TOP + (vh - TOP - s.th) / 2);
         s.tx.style.top = s.pin + 'px';
         s.n.style.paddingTop = (s.pin - TOP) + 'px';
-        s.n.style.height = Math.round(s.pin - TOP + s.th + s.hold) + 'px';
+        s.n.style.height = Math.round(Math.max(s.pin - TOP + s.th, last ? vh - TOP : 0) + s.hold) + 'px';
       }
     });
     const y0 = scrollY;
