@@ -218,40 +218,58 @@ const xs = [...stage.querySelectorAll('#L2 .xs')];
 // what each beat looks at, in world units
 const SHOTS = [
   { x: 240, y: 40, w: 1360, h: 960, m: { x: 250, y: 260, w: 1120, h: 740 } }, // 0 wide, from behind
-  { x: 300, y: 230, w: 1280, h: 540, m: { x: 330, y: 260, w: 1000, h: 820 } }, // 1 every input on the desk, tagged
-  { x: 560, y: 80, w: 1020, h: 700, m: { x: 660, y: 90, w: 900, h: 860 } },     // 2 the night: pile, clock, coffee, addenda
-  { x: 728, y: 278, w: 566, h: 346, m: { x: 600, y: 230, w: 820, h: 760 } },   // 3 the spreadsheet, up close: bias call-outs
-  { x: 738, y: 296, w: 546, h: 316, seq: [ // 4 Ladder: one finding, a shot per step
-    { x: 740, y: 300, w: 400, h: 250, m: { x: 640, y: 250, w: 760, h: 700 } }, // agents read; spec and schedule disagree
-    { x: 880, y: 296, w: 400, h: 260, m: { x: 700, y: 260, w: 640, h: 600 } }, // the finding, with both sources
-    { x: 420, y: 250, w: 940, h: 740, m: { x: 180, y: 230, w: 1300, h: 760 } }, // pull back: the engineer at the desk asks
-    { x: 840, y: 310, w: 440, h: 240, m: { x: 640, y: 250, w: 760, h: 700 } }, // the changed line
-    { x: 738, y: 296, w: 546, h: 316, m: { x: 330, y: 230, w: 1100, h: 860 } }, // the estimate, basis kept
+  { x: 300, y: 230, w: 1280, h: 540, ms: [ // 1 every input on the desk, tagged
+    { x: 300, y: 300, w: 420, h: 330 },   //   specs on the left monitor
+    { x: 1180, y: 420, w: 420, h: 330 },  //   drawings, addenda
+    { x: 420, y: 520, w: 700, h: 260 },   //   sub quotes, last job's rates, experience
   ] },
-  { x: 738, y: 296, w: 546, h: 316, m: { x: 600, y: 230, w: 820, h: 760 } },  // 5 the log
+  { x: 560, y: 80, w: 1020, h: 700, ms: [ // 2 the night: pile, clock, coffee, addenda
+    { x: 1090, y: 330, w: 200, h: 220 },  //   the inbox fills up
+    { x: 1150, y: 80, w: 450, h: 680 },   //   clock, due date, the pile
+    { x: 480, y: 520, w: 560, h: 480 },   //   head in hand
+  ] },
+  { x: 728, y: 278, w: 566, h: 346, ms: [ // 3 the spreadsheet, up close: bias call-outs
+    { x: 760, y: 385, w: 250, h: 90 },    //   anchoring
+    { x: 790, y: 410, w: 250, h: 90 },    //   fatigue
+    { x: 760, y: 490, w: 250, h: 90 },    //   optimism
+    { x: 560, y: 500, w: 260, h: 170 },   //   the budget note
+  ] },
+  { x: 738, y: 296, w: 546, h: 316, seq: [ // 4 Ladder: one finding, a shot per step
+    { x: 740, y: 300, w: 400, h: 250, m: { x: 850, y: 322, w: 280, h: 200 } }, // agents read; spec and schedule disagree
+    { x: 880, y: 296, w: 400, h: 260, m: { x: 1124, y: 318, w: 156, h: 240 } }, // the finding, with both sources
+    { x: 420, y: 250, w: 940, h: 740, m: { x: 560, y: 440, w: 620, h: 520 } }, // pull back: the engineer at the desk asks
+    { x: 840, y: 310, w: 440, h: 240, m: { x: 850, y: 322, w: 280, h: 180 } }, // the changed line
+    { x: 738, y: 296, w: 546, h: 316, m: { x: 850, y: 322, w: 280, h: 290 } }, // the estimate, basis kept
+  ] },
+  { x: 738, y: 296, w: 546, h: 316, ms: [ // 5 the log
+    { x: 850, y: 322, w: 280, h: 250 },   //   every step recorded
+    { x: 1124, y: 420, w: 156, h: 190 },  //   from past projects
+  ] },
   { x: 0, y: 0, w: 1600, h: 1000 },    // 6 wide, morning
 ];
 const TALL = SHOTS.findIndex(s => s.seq);
 // share of the tall beat's scroll each step holds; step 3 (pull back, the engineer asks) gets the most
 const STEP_W = [1, 1, 2.2, 1.3, 1], STEP_ENDS = STEP_W.slice(0, -1).map((w, k) => STEP_W.slice(0, k + 1).reduce((a, b) => a + b) / STEP_W.reduce((a, b) => a + b));
 
-let vw = 0, vh = 0, mobile = false, keys = [], shots = [], seq = [], sref = 1;
+let vw = 0, vh = 0, mobile = false, keys = [], shots = [], sq = [], sref = 1;
 function avail(i) {
   const top = 68;
-  if (mobile) return i === 0 ? { x: 8, y: vh * .58, w: vw - 16, h: vh * .41 } : { x: 0, y: vh * .5, w: vw, h: vh * .5 };
+  if (mobile) return i === 0 ? { x: 8, y: vh * .58, w: vw - 16, h: vh * .41 } : { x: 0, y: top, w: vw, h: vh - top - 190 };
   const x0 = Math.min(620, vw * .5);
   return { x: x0, y: top + 16, w: vw - x0 - 24, h: vh - top - 32 };
 }
 function layout() {
   vw = innerWidth; vh = innerHeight; mobile = vw <= 760;
   if (!mobile) body.classList.remove('mx-on');
-  sref = Math.min(vw / W, (vh - 68) / H);
+  // the 'wide' scale that zoom is measured against: on phones the scene's height, not its width
+  sref = mobile ? (vh - 68) / H : Math.min(vw / W, (vh - 68) / H);
   const fit = (r, i) => {
     const A = avail(i), S = Math.min(A.w / r.w, A.h / r.h);
     return { S, cx: r.x + r.w / 2, cy: r.y + r.h / 2, ax: A.x + A.w / 2, ay: A.y + A.h / 2 };
   };
   shots = SHOTS.map((s, i) => fit(mobile && s.m ? s.m : s, i));
-  seq = SHOTS[TALL].seq.map(r => fit(mobile && r.m ? r.m : r, TALL));
+  // beats with several shots: the tall beat everywhere, more beats on phones
+  sq = SHOTS.map((s, i) => mobile && s.ms ? s.ms.map(r => fit(r, i)) : s.seq ? s.seq.map(r => fit(mobile && r.m ? r.m : r, i)) : null);
   // scroll keys: each beat holds while its section is centred (tall sections hold longer)
   keys = beats.map((b, i) => {
     const top = b.offsetTop, h = b.offsetHeight, c = top + h / 2 - vh / 2, hold = Math.max(0, h - vh * 1.35);
@@ -276,10 +294,10 @@ function where(y) {
 }
 
 let cam = null, target = null, raf = 0, lastBeat = -1, lastStep = 0;
-// the tall beat holds one shot per step; it is entered at its first and left from its last
-const shotAt = (i, step, from) => i !== TALL ? shots[Math.min(i, shots.length - 1)] : from ? seq[seq.length - 1] : seq[step - 1];
-function camAt(pc, step) {
-  const i = Math.floor(pc), t = ease(clamp(pc - i)), A = shotAt(i, step, pc > i), B = shotAt(i + 1, 1);
+// a beat with several shots is entered at its first and left from its last
+const shotAt = (i, k, from) => { const q = sq[Math.min(i, sq.length - 1)]; return !q ? shots[Math.min(i, shots.length - 1)] : from ? q[q.length - 1] : q[Math.min(k, q.length - 1)]; };
+function camAt(pc, k) {
+  const i = Math.floor(pc), t = ease(clamp(pc - i)), A = shotAt(i, k, pc > i), B = shotAt(i + 1, 0);
   return { S: Math.exp(lerp(Math.log(A.S), Math.log(B.S), t)), cx: lerp(A.cx, B.cx, t), cy: lerp(A.cy, B.cy, t), ax: lerp(A.ax, B.ax, t), ay: lerp(A.ay, B.ay, t) };
 }
 function apply(c) {
@@ -367,13 +385,14 @@ function story(pc, sub) {
   if (stage.dataset.view !== view) stage.dataset.view = view;
   if (step !== lastStep) { stage.dataset.step = step; steps.forEach(li => li.classList.toggle('on', +li.dataset.s === step)); lastStep = step; }
   cls.toggle('asking', beat === TALL && step === 3);
-  if (mobile) phone(beat, at, step);
-  return step;
+  if (mobile) phone(beat, step);
+  // which shot of the beat: the step in the tall beat, otherwise progress through the hold
+  const q = sq[beat];
+  return beat === TALL ? step - 1 : q ? Math.min(q.length - 1, Math.floor(at * q.length)) : 0;
 }
 
-/* ---------------- phones: pinned Ladder card + caption ---------------- */
-const mx = document.getElementById('mx'), mxCap = mx.querySelector('.mx-cap'), mxArt = mx.querySelector('.mx-art');
-const mxCards = [...mx.querySelectorAll('.mx-card')].map(n => ({ n, b: +n.dataset.b, s: +n.dataset.s || 0, items: [...n.querySelectorAll('.mi')] }));
+/* ---------------- phones: a small pinned caption ---------------- */
+const mxCap = document.querySelector('#mx .mx-cap');
 const stepLabels = steps.map(li => li.textContent.trim().replace(/^\d\s*/, ''));
 let capKey = '', capT = 0;
 function caption(beat, step) {
@@ -386,31 +405,21 @@ function caption(beat, step) {
     const bno = card.querySelector('.bno').outerHTML, h2 = card.querySelector('h2').outerHTML;
     if (beat === TALL) {
       const dots = stepLabels.map((_, k) => `<i class="${k + 1 < step ? 'done' : k + 1 === step ? 'on' : ''}">${k + 1}</i>`).join('');
-      return bno + h2 + `<div class="mx-dots">${dots}</div><p class="mx-step">${stepLabels[step - 1]}</p>`;
+      return bno + `<div class="mx-dots">${dots}</div><p class="mx-step">${stepLabels[step - 1]}</p>`;
     }
     const m = card.querySelector('.cap-m');
     return bno + h2 + (m ? m.outerHTML : '');
   };
   clearTimeout(capT);
-  // within the tall beat only the step changes: no fade, so the tracker reads as one control
+  // inside the tall beat only the step changes: no fade, so the tracker reads as one control
   if (first || (beat === TALL && mxCap.dataset.b == TALL)) { mxCap.innerHTML = html(); mxCap.dataset.b = beat; return; }
   mxCap.classList.add('swap');
   capT = setTimeout(() => { mxCap.innerHTML = html(); mxCap.dataset.b = beat; mxCap.classList.remove('swap'); }, 180);
 }
-function phone(beat, at, step) {
+function phone(beat, step) {
   const on = beat >= 1 && beat <= TALL + 1;
   body.classList.toggle('mx-on', on);
-  if (!on) return;
-  caption(beat, step);
-  // progress inside the current card: the beat's hold, or the current step's share of the tall beat
-  let p = at;
-  if (beat === TALL) { const a = step > 1 ? STEP_ENDS[step - 2] : 0, b = step <= STEP_ENDS.length ? STEP_ENDS[step - 1] : 1; p = clamp((at - a) / (b - a)); }
-  mxCards.forEach(c => {
-    const show = c.b === beat && (!c.s || c.s === step);
-    if (show && !c.n.classList.contains('on')) mxArt.style.height = c.n.offsetHeight + 'px';
-    c.n.classList.toggle('on', show);
-    if (show) { const k = Math.floor(p * c.items.length * 1.15); c.items.forEach((it, j) => it.classList.toggle('in', j <= k)); }
-  });
+  if (on) caption(beat, step);
 }
 
 function update(jump) {
