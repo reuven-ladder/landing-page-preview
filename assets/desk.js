@@ -232,7 +232,7 @@ const STEP_W = [1, 1, 2.2, 1.3, 1], STEP_ENDS = STEP_W.slice(0, -1).map((w, k) =
 let vw = 0, vh = 0, mobile = false, keys = [], shots = [], seq = [], sref = 1;
 function avail(i) {
   const top = 68;
-  if (mobile) return i === 0 ? { x: 12, y: vh * .56, w: vw - 24, h: vh * .42 } : { x: 12, y: top + 6, w: vw - 24, h: vh * .5 - top };
+  if (mobile) return i === 0 ? { x: 8, y: vh * .58, w: vw - 16, h: vh * .41 } : { x: 8, y: top + 4, w: vw - 16, h: vh * .62 - top };
   const x0 = Math.min(620, vw * .5);
   return { x: x0, y: top + 16, w: vw - x0 - 24, h: vh - top - 32 };
 }
@@ -321,6 +321,7 @@ function story(pc, sub) {
   cls.toggle('m1', late && pc > 1.3); cls.toggle('m2', late && pc > 1.6); cls.toggle('m3', late && pc > 1.9);
   cls.toggle('crums', late && pc > 1.8);
   cls.toggle('tired', pc > 1.75 && pc < 3.6);
+  stage.style.setProperty('--slump', piece([[1.4, 0], [3.3, 1], [3.55, 0]], pc).toFixed(3));
   cls.toggle('tags', pc > .6 && pc < 1.4);
   cls.toggle('past-rfi', pc > 1.3 && late);
   cls.toggle('missed-rfi', pc > 1.5 && late);
@@ -363,6 +364,9 @@ function update(jump) {
 let restT = 0;
 addEventListener('scroll', () => {
   update(false);
+  // scrolling drives the clock's second hand, the clouds and the estimator's hands
+  stage.style.setProperty('--sy', Math.round(scrollY));
+  stage.style.setProperty('--tap', Math.floor(scrollY / 26) % 2);
   stage.classList.add('scrolling');
   clearTimeout(restT);
   restT = setTimeout(() => stage.classList.remove('scrolling'), 220);
