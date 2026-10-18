@@ -62,6 +62,15 @@
     });
   });
 
+  // services switcher (mobile shows one card at a time)
+  var srv = document.querySelector('.srv');
+  document.querySelectorAll('.srv-tabs button').forEach(function (b, _, all) {
+    b.addEventListener('click', function () {
+      srv.dataset.on = b.dataset.srv;
+      all.forEach(function (o) { o.setAttribute('aria-selected', o === b ? 'true' : 'false'); });
+    });
+  });
+
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 })();
