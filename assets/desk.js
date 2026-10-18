@@ -305,10 +305,21 @@ const mix = (a, b, t) => '#' + a.map((v, i) => Math.round(lerp(v, b[i], t)).toSt
 const toasts = [...stage.querySelectorAll('.toast')];
 const steps = [...document.querySelectorAll('.steps li')];
 
+// write a CSS variable only when it changes: a write on the stage restyles the whole scene
+const vars = new Map();
+function setVar(nodes, k, v) {
+  const key = k + nodes.length;
+  if (vars.get(key) === v) return;
+  vars.set(key, v);
+  nodes.forEach(n => n.style.setProperty(k, v));
+}
+const stageN = [stage], headN = [...stage.querySelectorAll('g.head')];
+const tapN = [...stage.querySelectorAll('g.arm-n,g.arm-t,g.arm-r,g.mouse')], syN = [...stage.querySelectorAll('#sh,.cl')];
+
 function story(pc, sub) {
   const night = piece([[0, .35], [1, .5], [2, 1], [3.4, 1], [4, 0]], pc);
-  stage.style.setProperty('--night', night.toFixed(3));
-  stage.style.setProperty('--wall', mix([250, 250, 247], [226, 225, 217], night));
+  setVar(stageN, '--night', night.toFixed(2));
+  setVar(stageN, '--wall', mix([250, 250, 247], [226, 225, 217], night));
   sky.style.fill = pc > 3.5 ? mix([223, 234, 243], [46, 58, 88], night) : mix([236, 214, 182], [31, 42, 68], clamp((night - .35) / .65));
 
   // the clock runs from early evening to the small hours, then on to the next morning
@@ -321,7 +332,7 @@ function story(pc, sub) {
   cls.toggle('m1', late && pc > 1.3); cls.toggle('m2', late && pc > 1.6); cls.toggle('m3', late && pc > 1.9);
   cls.toggle('crums', late && pc > 1.8);
   cls.toggle('tired', pc > 1.75 && pc < 3.6);
-  stage.style.setProperty('--slump', piece([[1.4, 0], [3.3, 1], [3.55, 0]], pc).toFixed(3));
+  setVar(headN, '--slump', piece([[1.4, 0], [3.3, 1], [3.55, 0]], pc).toFixed(2));
   cls.toggle('tags', pc > .6 && pc < 1.4);
   cls.toggle('past-rfi', pc > 1.3 && late);
   cls.toggle('missed-rfi', pc > 1.5 && late);
@@ -365,8 +376,10 @@ let restT = 0;
 addEventListener('scroll', () => {
   update(false);
   // scrolling drives the clock's second hand, the clouds and the estimator's hands
-  stage.style.setProperty('--sy', Math.round(scrollY));
-  stage.style.setProperty('--tap', Math.floor(scrollY / 26) % 2);
+  if (!stage.classList.contains('ladder')) {
+    setVar(syN, '--sy', String(Math.round(scrollY / 4) * 4));
+    setVar(tapN, '--tap', String(Math.floor(scrollY / 26) % 2));
+  }
   stage.classList.add('scrolling');
   clearTimeout(restT);
   restT = setTimeout(() => stage.classList.remove('scrolling'), 220);
