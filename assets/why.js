@@ -36,9 +36,9 @@
 
   // everything the timeline animates; render() reads it
   const u = { ...cam(SHOT.WIDE), spec: 1, xl: 1, app: 0, night: 0,
-    t0: 0, t1: 0, t2: 0, t3: 0, t4: 0, t5: 0, n0: 0, n1: 0, q0: 0, q1: 0, q2: 0, q3: 0, b0: 0, b1: 0, b2: 0,
+    t0: 0, t1: 0, t2: 0, t3: 0, t4: 0, t5: 0, n0: 0, n1: 0, n2: 0, q0: 0, q1: 0, q2: 0, q3: 0, b0: 0, b1: 0, b2: 0,
     dA: 0, dB: 0, link: 0, flag: 0, bub: 0, type: 0, reply: 0, num: 0, count: 0, by: 0, sig: 0, k0: 0, k1: 0, k2: 0, stamp: 0,
-    log: 0, l0: 0, l1: 0, l2: 0, l3: 0, next: 0 };
+    log: 0, l0: 0, l1: 0, l2: 0, l3: 0, l4: 0, next: 0 };
   const pop = (k, at, d = .35, ease = 'back.out(1.6)') => tl.to(u, { [k]: 1, duration: d, ease }, at);
   const out = (ks, at) => tl.to(u, Object.assign({ duration: .3, ease: 'power1.in' }, ...ks.map(k => ({ [k]: 0 }))), at);
   const move = (r, at, d = .8, extra = {}) => tl.to(u, { ...cam(r), duration: d, ...extra }, at);
@@ -52,10 +52,10 @@
   out(['t0', 't1', 't2', 't3', 't4', 't5'], 3.4);
   move(SHOT.DEAD, 3.45, .75);
   tl.to(u, { night: .35, duration: 2, ease: 'none' }, 3.4);
-  pop('n0', 4.0); pop('n1', 4.2);
+  pop('n0', 4.0); pop('n1', 4.15); pop('n2', 4.3);
   ['q0', 'q1', 'q2', 'q3'].forEach((k, i) => pop(k, 4.4 + i * .3, .3, 'power3.out'));
   // 03 · the human limit
-  out(['n0', 'n1', 'q0', 'q1', 'q2', 'q3'], 5.6);
+  out(['n0', 'n1', 'n2', 'q0', 'q1', 'q2', 'q3'], 5.6);
   move(SHOT.BIAS, 5.65, .7);
   tl.to(u, { night: .6, duration: 1.8, ease: 'none' }, 5.6);
   pop('b2', 6.3); pop('b0', 6.6); pop('b1', 6.9);
@@ -80,10 +80,10 @@
   out(['sig', 'k0', 'k1', 'k2', 'stamp'], 18.4);
   move(SHOT.LOG, 18.45, .75);
   pop('log', 19.0, .45, 'power3.out');
-  ['l0', 'l1', 'l2', 'l3'].forEach((k, i) => pop(k, 19.3 + i * .2, .3, 'power2.out'));
+  ['l0', 'l1', 'l2', 'l3', 'l4'].forEach((k, i) => pop(k, 19.3 + i * .17, .3, 'power2.out'));
   pop('next', 20.3, .4);
   // 06 · working with Ladder: back to the whole desk
-  out(['log', 'l0', 'l1', 'l2', 'l3', 'next'], 20.8);
+  out(['log', 'l0', 'l1', 'l2', 'l3', 'l4', 'next'], 20.8);
   move(SHOT.WIDE, 20.85, .9);
   tl.to({}, { duration: .8 }, 21.8);
   const STEPS = [7.6, 9.6, 11.0, 14.0, 16.3];
