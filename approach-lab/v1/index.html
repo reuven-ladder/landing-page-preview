@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Analytics (GA4) -->
+  <script>
+    var GA_ID = 'G-2SN38LE7MF';
+    (function(){
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+  <title>Why Ladder lab v1</title>
+  <meta name="description" content="Estimating, rebuilt around AI. A look behind the scenes: AI agents read and cross-check every sheet, and our cost engineers own the number." />
+  <meta name="theme-color" content="#fafaf7" />
+  <meta property="og:title" content="Ladder — Drawings in. A defensible estimate out." />
+  <meta property="og:description" content="Estimating, rebuilt around AI: an estimate fast enough to steer the design and thorough enough to trust." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getladder.ai/" />
+  <meta property="og:image" content="https://getladder.ai/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/site.css" />
+  <link rel="stylesheet" href="../../assets/world.css" />
+    <link rel="stylesheet" href="../../assets/lab/lab-v1.css" />
+</head>
+<body class="lab-page">
+
+<header class="site-header">
+  <div class="topbar">
+    <a class="brand" href="../../" aria-label="Ladder home">Ladder<span class="accent">.</span></a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../../#services">Services</a>
+      <a href="../../#how">How we work</a>
+      <a href="../../approach/" aria-current="page">Why Ladder</a>
+      <a href="../../#team">Team</a>
+      <span class="btns">
+        <a class="btn btn-outline btn-sm" href="../../sample/">View a sample estimate</a>
+        <a class="btn btn-dark btn-sm" href="../../#start">Request a quote</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="lab-intro wrap">
+    <p class="kicker">Prototype · Why Ladder</p>
+    <h1>One finding, <span class="accent">start to finish.</span></h1>
+    <p class="lede">Scroll to follow one conflict in the documents, from the agents reading the set to the line in the estimate.</p>
+  </section>
+
+  <section class="lab" id="lab" aria-label="Animation: how one finding becomes a line in the estimate">
+    <div class="lab-pin">
+      <!-- the desk, drawn once as images; the camera moves the layers -->
+      <div class="lw" data-d="1">
+        <img src="../../assets/lab/room.webp" alt="" style="left:0;top:0;width:1600px;height:1000px" />
+        <div class="lw-screen"><b>Ladder<span class="accent">.</span></b><i></i><i></i><i class="s"></i><i></i></div>
+      </div>
+      <div class="lw" data-d="1.05"><img src="../../assets/lab/desk.webp" alt="" style="left:0;top:440px;width:1600px;height:560px" /></div>
+      <div class="lw" data-d="1.32"><img src="../../assets/lab/person.webp" alt="" style="left:440px;top:600px;width:680px;height:400px" /></div>
+
+      <!-- the engineer asks: a bubble anchored to the desk -->
+      <div class="lab-bubble"><small>Cost engineer</small><span>Which doors use set 4? Any fire-rated? Check G-101.</span></div>
+
+      <!-- Ladder: a live window that lifts out of the monitor -->
+      <div class="la" aria-hidden="true">
+        <div class="la-top"><b>Ladder<span class="accent">.</span></b><span class="la-crumb">Sample project · 54,000 SF renovation &amp; addition · DD estimate</span><span class="la-me"><i></i>Cost engineer</span></div>
+        <div class="la-body">
+          <div class="la-main">
+            <div class="la-v la-sheets">
+              <p class="la-cap">Documents · read by trade agents</p>
+              <div class="la-grid">
+                <div class="sh x" data-k="a"><b>08 71 00</b><small>Spec · hardware sets</small><em>Set 4: closer</em></div>
+                <div class="sh x" data-k="b"><b>A-601</b><small>Door schedule</small><em>Set 4: no closer</em></div>
+                <div class="sh g"><b>G-101</b><small>Life-safety plan</small><em>8 rated doors</em></div>
+                <div class="sh"><b>A-501</b><small>Roof plan</small></div>
+                <div class="sh"><b>M-401</b><small>Mech. schedule</small></div>
+                <div class="sh"><b>Add. 3</b><small>RTU-3 resized</small></div>
+              </div>
+              <p class="la-read"><b>212</b> documents · each sheet read by its trade’s agent</p>
+            </div>
+            <div class="la-v la-est">
+              <p class="la-cap">Estimate · 08 71 00 · line 12</p>
+              <div class="el">
+                <p class="el-h"><b>Door hardware sets</b><span>146 EA · $118k – $139k</span></p>
+                <p class="el-chg"><span>Closers · set 4</span><s>0 EA</s><b><i class="n">0</i> EA</b></p>
+                <p class="el-by">Changed by the cost engineer · rated doors on G-101</p>
+                <dl>
+                  <div class="kv"><dt>Basis</dt><dd>Closers on the 8 rated set 4 doors, per spec and G-101</dd></div>
+                  <div class="kv"><dt>Source</dt><dd>08 71 00 · A-601 · G-101</dd></div>
+                  <div class="kv"><dt class="warn">Open</dt><dd class="warn">RFI #9 · closers on the other 4 doors</dd></div>
+                </dl>
+                <p class="el-tr"><span>Clarification</span><span>Assumption</span><span>Allowance</span><span>Exclusion</span></p>
+                <span class="stamp">Reviewed &amp; signed<small>Cost engineer · Ladder</small></span>
+              </div>
+            </div>
+          </div>
+          <div class="la-side">
+            <p class="la-cap">Findings</p>
+            <div class="f bad f1"><i></i><p>Set 4 lists closers. The door schedule omits them.<small>↗ 08 71 00 · A-601</small></p></div>
+            <div class="f q f2"><p><small>Cost engineer</small>Which doors use set 4? Any fire-rated?</p></div>
+            <div class="f ok f3"><i></i><p>12 doors on set 4. 8 are rated on G-101, so closers are needed.<small>↗ A-601 · G-101</small></p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- the caption: small, explains what the scene shows -->
+      <div class="lab-cap">
+        <p class="bno">04 / How we work</p>
+        <div class="dots"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+        <div class="st">
+          <p>The spec and the door schedule disagree.</p>
+          <p>The openings agent flags it, with both sources.</p>
+          <p>The cost engineer challenges it and asks for a check.</p>
+          <p>The answer changes the quantity.</p>
+          <p>The estimate keeps the decision and its basis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lab-outro wrap">
+    <p class="kicker">That’s the prototype</p>
+    <h2>The agents do the reading. <span class="accent">The engineer changes the number.</span></h2>
+    <p><a class="btn btn-outline" href="../../approach/">Back to Why Ladder</a></p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="panel">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="../../">Ladder<span class="accent">.</span></a>
+        <p>Construction cost estimating. Drawings in, a defensible estimate out.</p>
+        <p><a href="mailto:omri@getladder.ai">omri@getladder.ai</a></p>
+      </div>
+      <div>
+        <h4>Ladder</h4>
+        <ul>
+          <li><a href="../../#services">Services</a></li>
+          <li><a href="../../#how">How we work</a></li>
+          <li><a href="../../approach/">Why Ladder</a></li>
+          <li><a href="../../sample/">Sample estimate</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../company/">About</a></li>
+          <li><a href="../../company/#careers">Careers</a></li>
+          <li><a href="https://www.linkedin.com/company/ladder-ai/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://medium.com/ladder-ai" target="_blank" rel="noopener">Medium</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../../faq/">FAQ</a></li>
+          <li><a href="../../privacy-policy/">Privacy Policy</a></li>
+          <li><a href="../../terms-of-use/">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="year">2026</span> Ladder</span>
+      <span>Drawn by Ladder AI · Reviewed by people</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../../assets/lab/lab-v1.js"></script>
+<script src="../../assets/site.js"></script>
+</body>
+</html>
