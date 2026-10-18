@@ -175,7 +175,23 @@ main{position:relative;z-index:1}
 .wl .p{font:700 .82rem/1 var(--mono);white-space:nowrap;min-width:5.6rem;text-align:right}
 .wf-rev{justify-content:space-between;align-items:center;gap:1rem;margin-top:.7rem;padding:.7rem .8rem;border-radius:8px;background:var(--green-50);font:600 .72rem/1.2 var(--mono);color:var(--green)}
 .wf-rev b{font:700 1.05rem/1 var(--display);color:var(--ink)}
-.wf-still{display:none}
+/* each stage plays in: documents tick to Read, quantities slide in, prices and the review land */
+@keyframes wfpop{from{opacity:0;transform:scale(.6)}}
+@keyframes wfin{from{opacity:0;transform:translateX(14px)}}
+.wf-vis[data-stage="1"] .doc s{animation:wfpop .35s cubic-bezier(.2,1.6,.4,1) both}
+.wf-vis[data-stage="1"] .doc:nth-of-type(1) s{animation-delay:.5s}
+.wf-vis[data-stage="1"] .doc:nth-of-type(2) s{animation-delay:1.1s}
+.wf-vis[data-stage="1"] .doc:nth-of-type(3) s{animation-delay:1.7s}
+.wf-vis[data-stage="1"] .doc:nth-of-type(4) s{animation-delay:2.3s}
+.wf-vis[data-stage="2"] .wl{animation:wfin .45s var(--ease) both}
+.wf-vis[data-stage="2"] .wl:nth-of-type(2){animation-delay:.25s}
+.wf-vis[data-stage="2"] .wl:nth-of-type(3){animation-delay:.5s}
+.wf-vis[data-stage="2"] .mk{transition-delay:.2s}
+.wf-vis[data-stage="3"] .wl .p{animation:wfpop .35s cubic-bezier(.2,1.6,.4,1) both}
+.wf-vis[data-stage="3"] .wl:nth-of-type(2) .p{animation-delay:.3s}
+.wf-vis[data-stage="3"] .wl:nth-of-type(3) .p{animation-delay:.6s}
+.wf-vis[data-stage="3"] .wf-rev{animation:wfin .45s .9s var(--ease) both}
+@media (prefers-reduced-motion:reduce){.wf-vis *{animation:none!important}}
 
 /* ---------- v10: the work ---------- */
 
@@ -199,20 +215,26 @@ main{position:relative;z-index:1}
 @media (max-width:960px){
   .roles{grid-template-columns:1fr}
   .wf{grid-template-columns:1fr}
-  .wf-stick{display:none}
-  .wf-steps li{min-height:0;padding:1.2rem 0 1.6rem 1rem;border-left-color:var(--blue)}
-  .wf-steps li .n{color:var(--blue)}
-  .wf-steps li h3{color:var(--ink)}
-  .wf-steps li p{color:var(--ink-2)}
-  .wf-still{display:block;margin-top:1rem}
+  /* the visual sticks on top and the steps scroll under it, as on desktop */
+  .wf-stick{order:-1;top:68px;z-index:2;margin:0 calc(-1*var(--gutter));padding:.6rem var(--gutter) .8rem;background:var(--paper)}
+  .wf-steps li{min-height:44vh;justify-content:flex-start;padding:1.4rem 0 1.4rem 1rem}
 }
 @media (max-width:560px){
-  .wf-body{grid-template-columns:1fr;padding:.75rem}
-  .wf-sheets{max-width:220px;margin:0 auto}
-  .wf-right{min-height:0}
-  .wf-docs,.wf-est{position:static}
-  .wf-vis[data-stage="1"] .wf-est,.wf-vis[data-stage="2"] .wf-docs,.wf-vis[data-stage="3"] .wf-docs{display:none}
-  .wl{grid-template-columns:22px 1fr auto}
+  .wf-bar{padding:.5rem .7rem}
+  .wf-tabs{display:none}
+  .wf-body{grid-template-columns:72px 1fr;gap:.6rem;padding:.6rem}
+  .wf-right{min-height:226px}
+  .wf-cap{margin-bottom:.45rem}
+  .doc,.wl{padding:.42rem .55rem;margin-bottom:.35rem;gap:.5rem}
+  .doc i{width:22px;height:22px;font-size:.75rem}
+  .doc b,.wl b{font-size:.8rem}
+  .doc small,.wl small{font-size:.6rem}
+  .wl em{width:18px;height:18px;font-size:.6rem}
+  .wf-rev{margin-top:.4rem;padding:.5rem .6rem}
+  .wl .p{min-width:0}
+  .wf-vis[data-stage="3"] .wl small.c3:not(.warn){display:none}
+  .wf-rev b{font-size:.95rem}
+  .wl{grid-template-columns:18px 1fr auto}
   .wf-vis[data-stage="3"] .wl .q{display:none}
 }
 @media (prefers-reduced-motion:reduce){.wf-sheets .scan{animation:none!important;opacity:0!important}}
@@ -332,8 +354,6 @@ main{position:relative;z-index:1}
   .sb-btns .btn{justify-content:center}
   .sb-btns .btn-dark{grid-column:1/-1}
 
-  /* workflow: the panels carry it; the drawing thumbnails repeat three times */
-  .wf-still .wf-sheets{display:none}
 
   /* team: swipe instead of three tall cards */
   .team{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1*var(--gutter));padding:.5rem var(--gutter) 1.25rem;scrollbar-width:none}
