@@ -61,59 +61,51 @@
     <p class="lede">Scroll to follow one conflict in the documents, from the agents reading the set to the line in the estimate.</p>
   </section>
 
-  <section class="lab" id="lab" aria-label="Animation: how one finding becomes a line in the estimate">
-    <div class="lab-pin">
-      <!-- the desk, drawn once as images; the camera moves between frames -->
-      <div class="lw" data-d="1">
-        <img src="../assets/lab/room.webp" alt="" style="left:0;top:0;width:1600px;height:1000px" />
-        <div class="lw-screen"><b>Ladder<span class="accent">.</span></b><i></i><i></i><i class="s"></i><i></i></div>
-      </div>
-      <div class="lw" data-d="1.05"><img src="../assets/lab/desk.webp" alt="" style="left:0;top:440px;width:1600px;height:560px" /></div>
-      <div class="lw" data-d="1.32"><img src="../assets/lab/person.webp" alt="" style="left:440px;top:600px;width:680px;height:400px" /></div>
-
-      <!-- one frame per idea: each plays once when you arrive -->
-      <div class="fr fr-1" data-f="1">
-        <div class="ldoc a"><small>Spec 08 71 00 · §2.4</small><p>Set 4 <span>→</span> <mark>closer</mark></p></div>
-        <div class="link"><i></i><b>Conflict</b></div>
-        <div class="ldoc b"><small>A-601 · Door schedule</small><p>Set 4 <span>→</span> <mark>no closer</mark></p></div>
-        <div class="flag"><i></i>Flagged by the openings agent</div>
-      </div>
-      <div class="fr fr-2" data-f="2">
-        <div class="bubble"><small>Cost engineer</small><span>Which doors use set 4? Any fire-rated? Check G-101.</span></div>
-        <div class="reply"><i></i>8 doors are rated on G-101.</div>
-      </div>
-      <div class="fr fr-3" data-f="3">
-        <div class="num">
-          <small>Door hardware · 08 71 00 · line 12</small>
-          <p class="num-l">Closers on set 4</p>
-          <p class="num-v"><s>0</s><b><i class="n">0</i><em> EA</em></b></p>
-          <p class="num-by">Changed by the cost engineer</p>
-        </div>
-      </div>
-      <div class="fr fr-4" data-f="4">
-        <div class="sig">
-          <p class="sig-h"><b>Door hardware sets</b><span>$118k – $139k</span></p>
-          <p class="kv"><b>Basis</b><span>8 rated doors on G-101 get closers</span></p>
-          <p class="kv"><b>Source</b><span>08 71 00 · A-601 · G-101</span></p>
-          <p class="kv"><b class="warn">Open</b><span class="warn">RFI #9 · the other 4 doors</span></p>
-          <span class="stamp">Reviewed &amp; signed<small>Cost engineer · Ladder</small></span>
-        </div>
-      </div>
-
-      <!-- the caption: one line per frame -->
-      <div class="lab-cap">
-        <p class="bno">04 / How we work</p>
-        <div class="dots"><i>1</i><i>2</i><i>3</i><i>4</i></div>
-        <div class="st">
-          <p>Follow one finding, from the documents to the estimate.</p>
-          <p>The spec and the door schedule disagree. An agent flags it.</p>
-          <p>The engineer doesn’t take it as given, and asks for a check.</p>
-          <p>The answer changes the estimate.</p>
-          <p>Delivered with its basis, and signed.</p>
-        </div>
+  <!-- the scene: one canvas plus a few cards, fixed while the story scrolls past -->
+  <div class="stage3" id="stage3" aria-hidden="true">
+    <canvas></canvas>
+    <div class="fr fr-1">
+      <div class="ldoc a"><small>Spec 08 71 00 · §2.4</small><p>Set 4 <span>→</span> <mark>closer</mark></p></div>
+      <div class="link"><i></i><b>Conflict</b></div>
+      <div class="ldoc b"><small>A-601 · Door schedule</small><p>Set 4 <span>→</span> <mark>no closer</mark></p></div>
+      <div class="flag"><i></i>Flagged by the openings agent</div>
+    </div>
+    <div class="fr fr-2">
+      <div class="bubble"><small>Cost engineer</small><span>Which doors use set 4? Any fire-rated? Check G-101.</span></div>
+      <div class="reply"><i></i>8 doors are rated on G-101.</div>
+    </div>
+    <div class="fr fr-3">
+      <div class="num">
+        <small>Door hardware · 08 71 00 · line 12</small>
+        <p class="num-l">Closers on set 4</p>
+        <p class="num-v"><s>0</s><b><i class="n">0</i><em> EA</em></b></p>
+        <p class="num-by">Changed by the cost engineer</p>
       </div>
     </div>
-  </section>
+    <div class="fr fr-4">
+      <div class="sig">
+        <p class="sig-h"><b>Door hardware sets</b><span>$118k – $139k</span></p>
+        <p class="kv"><b>Basis</b><span>8 rated doors on G-101 get closers</span></p>
+        <p class="kv"><b>Source</b><span>08 71 00 · A-601 · G-101</span></p>
+        <p class="kv"><b class="warn">Open</b><span class="warn">RFI #9 · the other 4 doors</span></p>
+        <span class="stamp">Reviewed &amp; signed<small>Cost engineer · Ladder</small></span>
+      </div>
+    </div>
+    <div class="lab-cap">
+      <p class="bno">04 / How we work</p>
+      <div class="dots"><i>1</i><i>2</i><i>3</i><i>4</i></div>
+      <div class="st">
+        <p>Follow one finding, from the documents to the estimate.</p>
+        <p>The spec and the door schedule disagree. An agent flags it.</p>
+        <p>The engineer doesn’t take it as given, and asks for a check.</p>
+        <p>The answer changes the estimate.</p>
+        <p>Delivered with its basis, and signed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- the story's length: scrolling through it plays the timeline -->
+  <section class="story3" id="story" aria-label="Animation: how one finding becomes a line in the estimate"></section>
 
   <section class="lab-outro wrap">
     <p class="kicker">That’s the prototype</p>
@@ -164,6 +156,8 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="../assets/lab/lab.js"></script>
 <script src="../assets/site.js"></script>
